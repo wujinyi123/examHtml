@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"/>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/layui.all.js"></script>
+</head>
+<body>
+<script>
+    win = window;
+    while (win != win.parent) {
+        win = win.parent;
+    }
+    layui.use('layer', function () {
+        layui.layer.alert('<span style="color: #FF0000; font-size:16px;">登录已超时或未登录</span>', {icon: 2}, function () {
+            win.location.href = "/login.html";
+        });
+        setTimeout(function () {
+            win.location.href = "/login.html";
+        }, 3000);
+    });
+</script>
+</body>
+</html>

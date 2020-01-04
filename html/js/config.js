@@ -1,0 +1,3 @@
+var configData = {
+	"projectName":"ExamSystem"
+}
