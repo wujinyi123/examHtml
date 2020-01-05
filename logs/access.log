@@ -1,0 +1,6 @@
+127.0.0.1 - - [05/Jan/2020:20:13:53 +0800] "GET / HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+127.0.0.1 - - [05/Jan/2020:20:13:53 +0800] "GET /js/config.js HTTP/1.1" 304 0 "http://localhost:8123/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+127.0.0.1 - - [05/Jan/2020:20:13:53 +0800] "GET /login.js HTTP/1.1" 200 4070 "http://localhost:8123/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+127.0.0.1 - - [05/Jan/2020:20:14:01 +0800] "POST /back/user/login HTTP/1.1" 200 135 "http://localhost:8123/" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+127.0.0.1 - - [05/Jan/2020:20:14:06 +0800] "POST /user/getUser HTTP/1.1" 404 570 "http://localhost:8123/html/student/index.html" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+127.0.0.1 - - [05/Jan/2020:20:14:06 +0800] "POST /message/getMessageCount HTTP/1.1" 404 570 "http://localhost:8123/html/student/page/main.html" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
