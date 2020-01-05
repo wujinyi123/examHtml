@@ -101,7 +101,7 @@ layui.use('layer', function () {
 			Code();
 			$.ajax({
 				type: "POST",
-				url: "/back/exam/user/login",
+				url: "/exam/user/login",
                 dataType: "json",
                 contentType: "application/json;charset=utf-8",
                 data: JSON.stringify(JsonData),
