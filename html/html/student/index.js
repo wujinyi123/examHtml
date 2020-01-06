@@ -34,16 +34,12 @@
 
 })();
 
-getUserMsgJsonData = {
-    userType:"student"
-}
-
 $.ajax({
     type: "POST",
     url: "/back/user/getUserMsg",
     dataType: "json",
     contentType: "application/json;charset=utf-8",
-    data: JSON.stringify(getUserMsgJsonData),
+    data: JSON.stringify({userType:"student"}),
     success: function(data){
         $("#realName").html(data.data.name);
         $("#userNumber").html(data.data.number);
@@ -51,4 +47,23 @@ $.ajax({
     error:function(e){
         console.log(e);
     }
+});
+
+$("#updatepassword").click(function(){
+    layui.use('layer', function() {
+        layui.layer.open({
+            type: 2,
+            title: '修改密码',
+            shadeClose: true,
+            shade: false,
+            //maxmin: true, //开启最大化最小化按钮
+            area: ['35%', '50%'],
+            content: 'views/updatePassword.html'
+        });
+    });
+});
+
+$("#exit").click(function(){
+    $.cookie('student'+configData.projectName, null);
+    window.location.href='../../login.html';
 });

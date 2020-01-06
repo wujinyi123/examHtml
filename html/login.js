@@ -128,7 +128,7 @@ function check_login(data){
 			queue: false
 		}).addClass('visible');
 		$('.login').removeClass('testtwo'); //平移特效
-	}, 2000);
+	}, 1000);
 	
 	setTimeout(function () {
 		$('.authent').hide();
@@ -145,5 +145,5 @@ function check_login(data){
 		} else {
 			AjaxErro({"Status":"Erro","Erro":data.msg});
 		}
-	}, 2400);
+	}, 1300);
 }

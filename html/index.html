@@ -9,17 +9,15 @@
 </head>
 <body>
 <script>
-    win = window;
-    while (win != win.parent) {
-        win = win.parent;
-    }
+    var code=window.location.href.split("=")[1];
+    var msg=[" ","修改成功，请重新登录","登录超时或未登录"];
     layui.use('layer', function () {
-        layui.layer.alert('<span style="color: #FF0000; font-size:16px;">登录已超时或未登录</span>', {icon: 2}, function () {
-            win.location.href = "/login.html";
+        layui.layer.alert('<span style="color: #FF0000; font-size:16px;">'+msg[code]+'</span>', {icon: code}, function () {
+            window.location.href = "/login.html";
         });
         setTimeout(function () {
-            win.location.href = "/login.html";
-        }, 3000);
+            window.location.href = "/login.html";
+        }, 2000);
     });
 </script>
 </body>
