@@ -9,7 +9,7 @@
     <link rel="icon" href="/favicon.ico">
     <title>学生在线小测系统-个人资料</title>
     <style>
-        #studentTel,#studentEmail{
+        #adminTel,#adminEmail{
           width: 300px;
         }
         .labelMessage{
@@ -33,39 +33,27 @@
         <div class="layui-row">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">学院：</label>
-                    <label id="collegeName" class="labelMessage"></label>
-                </div>
-                <div class="layui-form-item">
-                  <label class="layui-form-label">专业：</label>
-                  <label id="clazzName" class="labelMessage"></label>
-                </div>
-                <div class="layui-form-item">
-                  <label class="layui-form-label">班级：</label>
-                  <label id="clazzNumber" class="labelMessage"></label>
-                </div>
-                <div class="layui-form-item">
-                  <label class="layui-form-label">学号：</label>
-                  <label id="studentNumber" class="labelMessage"></label>
+                  <label class="layui-form-label">账号：</label>
+                  <label id="adminNumber" class="labelMessage"></label>
                 </div>
                 <div class="layui-form-item">
                   <label class="layui-form-label">姓名：</label>
-                  <label id="studentName" class="labelMessage"></label>
+                  <label id="adminName" class="labelMessage"></label>
                 </div>
                 <div class="layui-form-item">
                   <label class="layui-form-label">性别：</label>
-                  <label id="studentSex" class="labelMessage"></label>
+                  <label id="adminSex" class="labelMessage"></label>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">手机号码</label>
                     <div class="layui-input-block">
-                      <input type="tel" id="studentTel" placeholder="请输入手机号码" lay-verify="required|phone" class="layui-input">
+                      <input type="tel" id="adminTel" placeholder="请输入手机号码" lay-verify="required|phone" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">邮箱</label>
                     <div class="layui-input-block">
-                      <input type="text" id="studentEmail" placeholder="请输入邮箱" lay-verify="required|email" class="layui-input">
+                      <input type="text" id="adminEmail" placeholder="请输入邮箱" lay-verify="required|email" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -85,16 +73,13 @@
           url: "/back/user/getUserInfo",
           dataType: "json",
           contentType: "application/json;charset=utf-8",
-          data: JSON.stringify({userType:"student"}),
+          data: JSON.stringify({userType:"admin"}),
           success: function(data){
-              $("#collegeName").html(data.data.college);
-              $("#clazzName").html(data.data.major);
-              $("#clazzNumber").html(data.data.clazz);
-              $("#studentNumber").html(data.data.number);
-              $("#studentName").html(data.data.name);
-              $("#studentSex").html(data.data.sex);
-              $("#studentTel").val(data.data.tel);
-              $("#studentEmail").val(data.data.email);
+              $("#adminNumber").html(data.data.number);
+              $("#adminName").html(data.data.name);
+              $("#adminSex").html(data.data.sex);
+              $("#adminTel").val(data.data.tel);
+              $("#adminEmail").val(data.data.email);
           },
           error:function(e){
               console.log(e);
@@ -108,7 +93,7 @@
                   url: "/back/user/udateTelEmail",
                   dataType: "json",
                   contentType: "application/json;charset=utf-8",
-                  data: JSON.stringify({userType:"student",tel:$('#studentTel').val(),email:$('#studentEmail').val()}),
+                  data: JSON.stringify({userType:"admin",tel:$('#adminTel').val(),email:$('#adminEmail').val()}),
                   success: function(data){
                       if (data.data.state=='no') {
                         layui.layer.alert('<span style="color: #FF0000; font-size:16px;">'+data.data.msg+'</span>',{icon:2});
