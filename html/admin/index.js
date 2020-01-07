@@ -41,6 +41,9 @@ $.ajax({
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify({userType:"admin"}),
     success: function(data){
+        if (data.data==null) {
+            window.location.href='/index.html?code=2';
+        }
         $("#realName").html(data.data.name);
         $("#userNumber").html(data.data.number);
     },

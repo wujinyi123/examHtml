@@ -2,111 +2,51 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <title>学生在线小测系统-控制台</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="../assets/css/layui.css">
     <link rel="stylesheet" href="../assets/css/view.css"/>
-    <title></title>
+    <style>
+        #examCode{
+            width: 200px;
+        }
+        #examMsg{
+            position: absolute;
+            left: 220px;
+            top: 8px;
+        }
+        #examMsgFather{
+            position: relative;
+        }
+    </style>
 </head>
 <body class="layui-view-body">
     <div class="layui-content">
         <div class="layui-row layui-col-space20">
-            <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-col-sm12 layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-body chart-card">
-                        <div class="chart-header">
-                            <div class="metawrap">
-                                <div class="meta">
-                                    <span>总用户数</span>
-                                </div>
-                                <div class="total">126,560</div>
+                    <form class="layui-form layui-card-body" method="POST">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">考试码</label>
+                            <div class="layui-input-block" id="examMsgFather">
+                                <input type="text" name="examCode" id="examCode" value="" placeholder="请输入考试码" lay-verify="required" class="layui-input" onfocus="cleanExamMsg()">
+                                <label style="color: red;" id="examMsg"></label>
                             </div>
                         </div>
-                        <div class="chart-body">
-                            <div class="contentwrap">
-                                fsdfdsf
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit="" lay-filter="queryExam" id="submit">查询</button>
+                                <button type="reset" class="layui-btn layui-btn-primary" onclick="cleanExamMsg()">重置</button>
                             </div>
                         </div>
-                        <div class="chart-footer">
-                            <div class="field">
-                                <span>日注册量</span>
-                                <span>321</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-sm6 layui-col-md3">
-                <div class="layui-card">
-                    <div class="layui-card-body chart-card">
-                        <div class="chart-header">
-                            <div class="metawrap">
-                                <div class="meta">
-                                    <span>总用户数</span>
-                                </div>
-                                <div class="total">126,560</div>
-                            </div>
-                        </div>
-                        <div class="chart-body">
-                            <div class="contentwrap">
-                                fsdfdsf
-                            </div>
-                        </div>
-                        <div class="chart-footer">
-                            <div class="field">
-                                <span>日注册量</span>
-                                <span>321</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-sm6 layui-col-md3">
-                <div class="layui-card">
-                    <div class="layui-card-body chart-card">
-                        <div class="chart-header">
-                            <div class="metawrap">
-                                <div class="meta">
-                                    <span>总用户数</span>
-                                </div>
-                                <div class="total">126,560</div>
-                            </div>
-                        </div>
-                        <div class="chart-body">
-                            <div class="contentwrap">
-                                fsdfdsf
-                            </div>
-                        </div>
-                        <div class="chart-footer">
-                            <div class="field">
-                                <span>日注册量</span>
-                                <span>321</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-sm6 layui-col-md3">
-                <div class="layui-card">
-                    <div class="layui-card-body chart-card">
-                        <div class="chart-header">
-                            <div class="metawrap">
-                                <div class="meta">
-                                    <span>总用户数</span>
-                                </div>
-                                <div class="total">126,560</div>
-                            </div>
-                        </div>
-                        <div class="chart-body">
-                            <div class="contentwrap">
-                                fsdfdsf
-                            </div>
-                        </div>
-                        <div class="chart-footer">
-                            <div class="field">
-                                <span>日注册量</span>
-                                <span>321</span>
-                            </div>
-                        </div>
+                    </form>
+                    <div>
+                        <table class="layui-table" id="thisTable" style="margin-left: 15px; display: none;">
+                            <thead>
+                                <tr><th>考试码</th><th>考试名称</th><th>试卷总分</th><th>出题教师</th><th>考试时间</th><th>出题时间</th><th>截止时间</th><th>备注/操作</th></tr> 
+                            </thead>
+                            <tbody id="thisTbodys"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -131,8 +71,7 @@
         </div>
     </div>
     <script src="../assets/layui.all.js"></script>
-    <script>
-     var element = layui.element;
-    </script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="console.js"></script>
 </body>
 </html>
