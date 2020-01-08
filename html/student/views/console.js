@@ -29,8 +29,12 @@ function showTable(data) {
     td7.html(data.expDate);
     newTr.append(td7);
 
+    remark = ['<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterTest(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>',
+        '<span>你已参加过该考试，成绩：<span style="color:red;">'+data.myScore+'分</span></span><a class="layui-btn layui-btn-mini links_edit" href="#" target="_blank"><i class="iconfont icon-edit"></i>详情</a>',
+        '<span style="color:red;">该考试已经超过截止时间，您错过了考试</span>'];
+
     td8 = $('<td>');
-    td8.html(data.remark);
+    td8.html(remark[data.remark]);
     newTr.append(td8);
 
     $('#thisTbodys').append(newTr);
