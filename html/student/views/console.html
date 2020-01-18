@@ -41,7 +41,7 @@
                         </div>
                     </form>
                     <div>
-                        <table class="layui-table" id="thisTable" style="margin-left: 15px; display: none;">
+                        <table class="layui-table" id="thisTable" style="display: none;">
                             <thead>
                                 <tr><th>考试码</th><th>考试名称</th><th>试卷总分</th><th>出题教师</th><th>考试时间</th><th>出题时间</th><th>截止时间</th><th>备注/操作</th></tr> 
                             </thead>
@@ -54,15 +54,21 @@
                 <div class="layui-card">
                     <div class="layui-tab layui-tab-brief">
                         <ul class="layui-tab-title">
-                            <li class="layui-this">新增数</li>
-                            <li>活跃度</li>
+                            <li class="layui-this" onclick="pageNewExam()">新考试</li>
+                            <li>新成绩</li>
                         </ul>
                         <div class="layui-tab-content">
-                            <div class="layui-tab-item layui-show">
-                                dddd
+                            <div class="layui-tab-item">
+                                <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="pageNewExam()">
+                                    刷新
+                                </button>
+                                <table class="layui-hide" id="pageNewExam"></table>
                             </div>
                             <div class="layui-tab-item">
-                                ddd
+                                <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="listNewScore()">
+                                    刷新
+                                </button>
+                                <table class="layui-hide" id="listNewScore"></table>
                             </div>
                         </div>
                     </div>
