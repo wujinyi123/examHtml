@@ -29,7 +29,7 @@ function showTable(data) {
     td7.html(data.expDate);
     newTr.append(td7);
 
-    remark = ['<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterTest(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>',
+    remark = ['<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>',
         '<span>你已参加过该考试，成绩：<span style="color:red;">'+data.myScore+'分</span></span><a class="layui-btn layui-btn-mini links_edit" href="#" target="_blank"><i class="iconfont icon-edit"></i>详情</a>',
         '<span style="color:red;">该考试已经超过截止时间，您错过了考试</span>'];
 
@@ -65,6 +65,35 @@ layui.use(['form','layer'], function(){
         return false;
     });
 });
+
+function enterExam(examCode) {
+    $.ajax({
+        type: "POST",
+            url: "/back/user/getUserInfo",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({userType:"student"}),
+            success: function (data) {
+                titleName = data.data.college + "，" + data.data.major + "专业，" + data.data.clazz + "班，" + data.data.name + "，学号：" + data.data.number;
+                titleName = '<span style="color: red;font-size: 20px">' + titleName + '</span>';
+                layui = window.parent.layui;
+                layui.use('layer', function () {
+                    layui.layer.open({
+                        type: 2,
+                        title: titleName,
+                        shadeClose: true,
+                        shade: false,
+                        //maxmin: true, //开启最大化最小化按钮
+                        area: ['100%', '100%'],
+                        content: '/html/exam/index.html?number=' + examCode
+                    });
+            });
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
 
 function cleanExamMsg() {
     $("#examMsg").html("");
@@ -118,10 +147,55 @@ function pageNewExam() {
                 {field: 'expDate', title: '截止时间', sort: true},
                 {
                     field: 'id', title: '操作', sort: true, templet: function (data) {
-                        return '<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterTest(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>';
+                        return '<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>';
                     }
                 }
             ]]
         });
+    });
+}
+
+function listNewScore() {
+    $.ajax({
+        type: "POST",
+        url: "/back/exam/listNewScore",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({}),
+        success: function(data){
+            $('#newScoreTbodys').children().remove();
+            $.each(data.data, function (index, value) {
+                newTr = $('<tr>');
+
+                td1 = $('<td>');
+                td1.html(value.examCode);
+                newTr.append(td1);
+                
+                td2 = $('<td>');
+                td2.html(value.examName);
+                newTr.append(td2);
+                
+                td3 = $('<td>');	
+                td3.html(value.score);
+                newTr.append(td3);
+                
+                td4 = $('<td>');
+                td4.html(value.teacherName);
+                newTr.append(td4);
+
+                td5 = $('<td>');
+                td5.html(value.time);
+                newTr.append(td5);
+
+                td6 = $('<td>');
+                td6.html(value.myScore);
+                newTr.append(td6);
+
+                $('#newScoreTbodys').append(newTr);
+            });
+        },
+        error:function(e){
+            console.log(e);
+        }
     });
 }

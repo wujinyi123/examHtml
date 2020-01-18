@@ -83,7 +83,6 @@ url(${pageContext.request.contextPath }/fonts/jzbh.svg?t=1493949807789#iconfont)
     height: 90px;
     display: block;
     float: left; /*background:../images/student/logo.png*/
-) no-repeat center;
 }
 
 .top_left h1 {

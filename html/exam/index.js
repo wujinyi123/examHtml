@@ -1,38 +1,14 @@
-$.ajax({
-    type: "POST",
-    url: "/login/getStudent",
-    dataType: "json",
-    success: function (data) {
-        if (data.state == 0 || data.state == "0") {
-            layui.use('layer', function () {
-                layui.layer.alert('<span style="color: #FF0000; font-size:16px;">登录已超时或未登录</span>', {icon: 2}, function () {
-                    window.location.href = "/login.html";
-                });
-            });
-            setTimeout(function () {
-                window.location.href = "/login.html";
-            }, 3000);
-        } else {
-            $('input[name="student_id"]').val(data.id);
-            $('#student_name').val("姓名：" + data.name);
-            $('#student_number').val("学号：" + data.number);
-        }
-    },
-    error: function (e) {
-        console.log(e);
-    }
-});
-
 var sec = 1;
 var min;
 var type = ["single", "multiple"];
 var input_type = ["radio", "checkbox"];
-var number = window.location.href.split('=')[1];
+var examCode = window.location.href.split('=')[1];
 $.ajax({
     type: "POST",
-    url: "/test/getTestByNumber",
-    data: {"number": number},
+    url: "/back/exam/enterExam",
     dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    data: JSON.stringify({examCode:examCode}),
     success: function (data) {
         function forEach(questions, num) {
             $.each(questions, function (index, value) {
@@ -43,16 +19,25 @@ $.ajax({
                 question_li = $('<li id="qu_' + num + '_' + index + '">');
 
                 question_div = $('<div class="test_content_nr_tt">');
-                question_div.html('<i>' + (index + 1) + '</i><span>(' + value.score + '分)</span><font>' + value.question + '</font><b class="icon iconfont">&#xe881;</b>');
+                question_content = '<div><i>' + (index + 1) + '</i><span>(' + value.score + '分)</span><font>' + value.question + '</font><b class="icon iconfont">&#xe881;</b></div>';
+                if (value.imgQuestion!=undefined && value.imgQuestion!=null && value.imgQuestion!='') {
+                    question_content += '<div><img src="'+value.imgQuestion+'"/></div>';
+                }
+                question_div.html(question_content);
 
                 answer_div = $('<div class="test_content_nr_main">');
 
                 answer_ul = $('<ul>');
                 var options = ["A", "B", "C", "D"];
-                var answers = [value.option_a, value.option_b, value.option_c, value.option_d];
+                var answers = [value.optionA, value.optionB, value.optionC, value.optionD];
+                var answerImgs = [value.imgA, value.imgB, value.imgC, value.imgD];
                 for (i = 0; i < 4; i++) {
                     answer_li = $('<li class="option">');
-                    answer_li.html('<input value="' + options[i] + '" onclick="changeClass(' + num + ',' + index + ')" type="' + input_type[num] + '" class="radioOrCheck" name="' + type[num] + '_answer_' + index + '" id="' + type[num] + '_answer_' + index + '_option_' + options[i] + '" /><label for="' + type[num] + '_answer_' + index + '_option_' + options[i] + '">&nbsp;&nbsp;' + options[i] + '.<p class="ue" style="display: inline;">' + answers[i] + '</p></label>');
+                    option_content = '<div><input value="' + options[i] + '" onclick="changeClass(' + num + ',' + index + ')" type="' + input_type[num] + '" class="radioOrCheck" name="' + type[num] + '_answer_' + index + '" id="' + type[num] + '_answer_' + index + '_option_' + options[i] + '" /><label for="' + type[num] + '_answer_' + index + '_option_' + options[i] + '">&nbsp;&nbsp;' + options[i] + '.<p class="ue" style="display: inline;">' + answers[i] + '</p></label></div>'
+                    if (answerImgs[i]!=undefined && answerImgs[i]!=null && answerImgs[i]!='') {
+                        option_content += '<div><img src="'+answerImgs[i]+'"/></div>';
+                    }
+                    answer_li.html(option_content);
                     answer_ul.append(answer_li);
                 }
                 answer_div.append(answer_ul);
@@ -63,23 +48,20 @@ $.ajax({
             });
         }
 
-        min = data.time;
+        min = data.data.time;
         min = 1;
-        $("#test_number").text("考试码：" + data.number);
-        $("#test_name").text("考试名：" + data.test_name);
-        $("#test_points").text("总分：" + data.test_points);
-        $('input[name="number"]').val(data.number);
-        $('input[name="single_num"]').val(data.single_num);
-        $('input[name="multiple_num"]').val(data.multiple_num);
-        $("#single_num").text(data.single_num);
-        $("#single_num2").text(data.single_num);
-        $("#single_score").text(data.single_score);
-        $("#multiple_num").text(data.multiple_num);
-        $("#multiple_num2").text(data.multiple_num);
-        $("#multiple_score").text(data.multiple_score);
+        $("#test_number").text("考试码：" + data.data.examCode);
+        $("#test_name").text("考试名：" + data.data.examName);
+        $("#test_points").text("总分：" + data.data.score);
+        $("#single_num").text(data.data.singleList.length);
+        $("#single_num2").text(data.data.singleList.length);
+        $("#single_score").text(data.data.singleScore);
+        $("#multiple_num").text(data.data.multipleList.length);
+        $("#multiple_num2").text(data.data.multipleList.length);
+        $("#multiple_score").text(data.data.multipleScore);
 
-        forEach(data.singles, 0);
-        forEach(data.multiples, 1);
+        forEach(data.data.singleList, 0);
+        forEach(data.data.multipleList, 1);
         setCountDown_time();
     },
     error: function (e) {
