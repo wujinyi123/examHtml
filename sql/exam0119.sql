@@ -11,7 +11,7 @@
  Target Server Version : 100210
  File Encoding         : 65001
 
- Date: 19/01/2020 13:06:03
+ Date: 19/01/2020 23:24:53
 */
 
 SET NAMES utf8mb4;
@@ -47,8 +47,10 @@ CREATE TABLE `answer`  (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '答案id',
   `exam_code` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '考试码',
   `student_number` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '学生学号',
+  `single_answer` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '单选答案，中间英文逗号隔开',
+  `multiple_answer` varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '多选答案，中间英文逗号隔开',
   `score` int(3) NULL DEFAULT NULL COMMENT '成绩',
-  `use_time` int(3) NULL DEFAULT NULL COMMENT '用时',
+  `use_time` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '用时',
   `submit_time` datetime(6) NULL DEFAULT NULL COMMENT '提交时间',
   `state` int(1) NULL DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
@@ -57,14 +59,14 @@ CREATE TABLE `answer`  (
 -- ----------------------------
 -- Records of answer
 -- ----------------------------
-INSERT INTO `answer` VALUES (1, 'asdf', '20160100001', 99, 80, '2020-01-05 20:20:20.000000', 1);
-INSERT INTO `answer` VALUES (2, 't100001', '20160100001', 95, 88, '2020-01-10 10:00:00.000000', 1);
-INSERT INTO `answer` VALUES (3, 't100002', '20160100001', 95, 88, '2020-01-11 10:00:00.000000', 1);
-INSERT INTO `answer` VALUES (4, 't100003', '20160100001', 95, 88, '2020-01-12 10:00:00.000000', 1);
-INSERT INTO `answer` VALUES (5, 't100004', '20160100001', 95, 88, '2020-01-13 10:00:00.000000', 1);
-INSERT INTO `answer` VALUES (6, 't100005', '20160100001', 95, 88, '2020-01-14 10:00:00.000000', 1);
-INSERT INTO `answer` VALUES (7, 't200006', '20160100001', 95, 88, '2020-01-15 10:00:00.000000', 1);
-INSERT INTO `answer` VALUES (8, 't200007', '20160100001', 95, 88, '2020-01-16 10:00:00.000000', 1);
+INSERT INTO `answer` VALUES (1, 'asdf', '20160100001', 'A,B,C,D,A,B,C,D,A,B', 'AB,CD,ABC,BCD,BD', 99, '80', '2020-01-05 20:20:20.000000', 1);
+INSERT INTO `answer` VALUES (2, 't100001', '20160100001', 'A,B,C,D,A,B,C,D,A,B', 'AB,CD,ABC,BCD,BD', 95, '88', '2020-01-10 10:00:00.000000', 1);
+INSERT INTO `answer` VALUES (3, 't100002', '20160100001', 'A,B,C,D,A,B,C,D,A,B', 'AB,CD,ABC,BCD,BD', 95, '88', '2020-01-11 10:00:00.000000', 1);
+INSERT INTO `answer` VALUES (4, 't100003', '20160100001', 'A,B,C,D,A,B,C,D,A,B', 'AB,CD,ABC,BCD,BD', 95, '88', '2020-01-12 10:00:00.000000', 1);
+INSERT INTO `answer` VALUES (5, 't100004', '20160100001', 'A,B,C,D,A,B,C,D,A,B', 'AB,CD,ABC,BCD,BD', 95, '88', '2020-01-13 10:00:00.000000', 1);
+INSERT INTO `answer` VALUES (6, 't100005', '20160100001', 'A,B,C,D,A,B,C,D,A,B', 'AB,CD,ABC,BCD,BD', 95, '88', '2020-01-14 10:00:00.000000', 1);
+INSERT INTO `answer` VALUES (7, 't200006', '20160100001', 'A,B,C,D,A,B,C,D,A,B', 'AB,CD,ABC,BCD,BD', 95, '88', '2020-01-15 10:00:00.000000', 1);
+INSERT INTO `answer` VALUES (8, 't200007', '20160100001', 'A,B,C,D,A,B,C,D,A,B', 'AB,CD,ABC,BCD,BD', 95, '88', '2020-01-16 10:00:00.000000', 1);
 
 -- ----------------------------
 -- Table structure for clazz

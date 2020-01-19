@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>学生在线小测系统_在线考试</title>
     <link href="css/main.css" rel="stylesheet" type="text/css"/>
-    <link href="css/iconfont.css" rel="stylesheet" type="text/css"/>
     <link href="css/test.css" rel="stylesheet" type="text/css"/>
     <link href="/layui/css/layui.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -19,14 +18,13 @@
                 <form action="" method="post" id="test_form">
                     <div class="test_title">
                         <p class="test_time">
-                            <i class="icon iconfont">&#xe6fb;</i>
                             <b class="alt-1" id="test_number"></b><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <b class="alt-1" id="test_name"></b><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <b class="alt-1" id="test_points"></b>
                         </p>
                         <input type="text" name="stuNumber" style="display:none;"/>
 						<input type="text" name="examCode" style="display:none;"/>
-						<input type="text" name="userTime" style="display:none;"/>
+						<input type="text" name="useTime" style="display:none;"/>
 						<input type="text" name="submitTime" style="display:none;"/>
                         <font><input type="button" name="test_submit" id="test_submit" value="交卷"></font>
                     </div>
@@ -70,10 +68,10 @@
                 <div class="rt_nr1">
                     <div class="rt_nr1_title">
                         <h1>
-                            <i class="icon iconfont">&#xe692;</i>答题卡
+                            答题卡
                         </h1>
                         <p class="test_time">
-                            <i class="icon iconfont">&#xe6fb;</i><b class="alt-1" id="test_time"></b>
+                            <b class="alt-1" id="test_time"></b>
                         </p>
                     </div>
 
@@ -111,7 +109,7 @@
     <div class="foot"></div>
 </div>
 
-<script src="js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery.easy-pie-chart.js"></script>
 <script src="/layui/layui.js"></script>
 <script src="/layui/layui.all.js"></script>

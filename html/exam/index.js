@@ -37,7 +37,7 @@ $.ajax({
                 question_li = $('<li id="qu_' + num + '_' + index + '">');
 
                 question_div = $('<div class="test_content_nr_tt">');
-                question_content = '<div><i>' + (index + 1) + '</i><span>(' + value.score + '分)</span><font>' + value.question + '</font><b class="icon iconfont">&#xe881;</b></div>';
+                question_content = '<div style="word-wrap:break-word; word-break:normal;"><i>' + (index + 1) + '</i><span>(' + value.score + '分)</span><font>' + value.question + '</font></div>';
                 if (value.imgQuestion!=undefined && value.imgQuestion!=null && value.imgQuestion!='') {
                     question_content += '<div><img src="'+value.imgQuestion+'"/></div>';
                 }
@@ -51,7 +51,7 @@ $.ajax({
                 var answerImgs = [value.imgA, value.imgB, value.imgC, value.imgD];
                 for (i = 0; i < 4; i++) {
                     answer_li = $('<li class="option">');
-                    option_content = '<div><input value="' + options[i] + '" onclick="changeClass(' + num + ',' + index + ')" type="' + input_type[num] + '" class="radioOrCheck" name="' + type[num] + '_answer_' + index + '" id="' + type[num] + '_answer_' + index + '_option_' + options[i] + '" /><label for="' + type[num] + '_answer_' + index + '_option_' + options[i] + '">&nbsp;&nbsp;' + options[i] + '.<p class="ue" style="display: inline;">' + answers[i] + '</p></label></div>'
+                    option_content = '<div style="word-wrap:break-word; word-break:normal;><input value="' + options[i] + '" onclick="changeClass(' + num + ',' + index + ')" type="' + input_type[num] + '" class="radioOrCheck" name="' + type[num] + '_answer_' + index + '" id="' + type[num] + '_answer_' + index + '_option_' + options[i] + '" /><label for="' + type[num] + '_answer_' + index + '_option_' + options[i] + '">&nbsp;&nbsp;' + options[i] + '.<p class="ue" style="display: inline;">' + answers[i] + '</p></label></div>'
                     if (answerImgs[i]!=undefined && answerImgs[i]!=null && answerImgs[i]!='') {
                         option_content += '<div><img src="'+answerImgs[i]+'"/></div>';
                     }
@@ -67,8 +67,8 @@ $.ajax({
         }
 
         allMin = data.data.time;
-        //min = data.data.time;
-        min = 1;
+        min = data.data.time;
+        //min = 1;
         $('input[name="examCode"]').val(data.data.examCode);
         $("#test_number").text("考试码：" + data.data.examCode);
         $("#test_name").text("考试名：" + data.data.examName);
@@ -128,50 +128,93 @@ function ls() {
         });
         submit_form();
     }
-    $('#test_time').html(format(min) + ":" + format(sec));
+    $('#test_time').html("时间：" + format(min) + ":" + format(sec));
 }
 
 function update_index(data) {
-    $('#test_time').html("考试成绩：" + data.points);
+    $('#test_time').html("成绩：" + data.score);
     layui.use('layer', function () {
-        layui.layer.alert('<span style="font-size:16px;">考试成绩：<span style="color: #FF0000; font-size:18px;">' + data.points + '</span></span>', {icon: 1});
+        layui.layer.alert('<span style="font-size:16px;">考试成绩：<span style="color: #FF0000; font-size:18px;">' + data.score + '</span></span>', {icon: 1});
     });
 
-    function resultEach(checkAnswer, stuAnswer, num) {
+    function resultEach(checkAnswer, num) {
         $.each(checkAnswer, function (index, value) {
-            var str = "";
-            var tanswer = value.answer;
+            var ans = value.answer;
+            var stuAns = value.stuAnswer;
             var result_div = $('<div class="test_content_nr_tt">');
-            if (stuAnswer[index] == tanswer) {
-                result_div.html('<span style="width: 200px; display:inline-block; font-size:16px;">本题结果：<span style="color: springgreen; font-size:18px;">正确</span></span><span style="width: 200px; display:inline-block; font-size:16px;">正确答案：<span style="color: springgreen; font-size:18px;">' + tanswer + '</span></span>');
+            if (ans!=null && ans!='' && ans==stuAns) {
+                result_div.html('<span style="width: 200px; display:inline-block; font-size:16px;">本题结果：<span style="color: springgreen; font-size:18px;">正确</span></span><span style="width: 200px; display:inline-block; font-size:16px;">正确答案：<span style="color: springgreen; font-size:18px;">' + ans + '</span></span>');
                 $('a[href="' + '#qu_' + num + '_' + index + '"]').css("background-color", "rgba(0,238,0,0.5)");
             } else {
-                if (stuAnswer[index].trim() == "") {
-                    result_div.html('<span style="width: 200px; display:inline-block; font-size:16px;">本题结果：<span style="color: #FF0000; font-size:18px;">错误</span></span><span style="width: 200px; display:inline-block; font-size:16px;">正确答案：<span style="color: springgreen; font-size:18px;">' + tanswer + '</span></span><span style="width: 200px; display:inline-block; font-size:16px;">你的答案：<span style="color: #FF0000; font-size:18px;">无</span></span>');
+                if (stuAns==null && stuAns=="") {
+                    stuAns='';
+                    result_div.html('<span style="width: 200px; display:inline-block; font-size:16px;">本题结果：<span style="color: #FF0000; font-size:18px;">错误</span></span><span style="width: 200px; display:inline-block; font-size:16px;">正确答案：<span style="color: springgreen; font-size:18px;">' + ans + '</span></span><span style="width: 200px; display:inline-block; font-size:16px;">你的答案：<span style="color: #FF0000; font-size:18px;">无</span></span>');
                 } else {
-                    result_div.html('<span style="width: 200px; display:inline-block; font-size:16px;">本题结果：<span style="color: #FF0000; font-size:18px;">错误</span></span><span style="width: 200px; display:inline-block; font-size:16px;">正确答案：<span style="color: springgreen; font-size:18px;">' + tanswer + '</span></span><span style="width: 200px; display:inline-block; font-size:16px;">你的答案：<span style="color: #FF0000; font-size:18px;">' + stuAnswer[index] + '</span></span>');
+                    result_div.html('<span style="width: 200px; display:inline-block; font-size:16px;">本题结果：<span style="color: #FF0000; font-size:18px;">错误</span></span><span style="width: 200px; display:inline-block; font-size:16px;">正确答案：<span style="color: springgreen; font-size:18px;">' + ans + '</span></span><span style="width: 200px; display:inline-block; font-size:16px;">你的答案：<span style="color: #FF0000; font-size:18px;">' + stuAns + '</span></span>');
                 }
                 $('a[href="' + '#qu_' + num + '_' + index + '"]').css("background-color", "rgba(238,0,0,0.5)");
-                for (i = 0; i < stuAnswer[index].length; i++) {
-                    $('label[for="' + type[num] + '_answer_' + index + '_option_' + stuAnswer[index][i] + '"]').css("background-color", "rgba(238,0,0,0.3)");
+                for (i = 0; i < stuAns.length; i++) {
+                    $('label[for="' + type[num] + '_answer_' + index + '_option_' + stuAns[i] + '"]').css("background-color", "rgba(238,0,0,0.3)");
                 }
             }
-            for (i = 0; i < tanswer.length; i++) {
-                $('label[for="' + type[num] + '_answer_' + index + '_option_' + tanswer[i] + '"]').css("background-color", "rgba(0,238,0,0.3)");
+            for (i = 0; i < ans.length; i++) {
+                $('label[for="' + type[num] + '_answer_' + index + '_option_' + ans[i] + '"]').css("background-color", "rgba(0,238,0,0.3)");
             }
-            $('#qu_' + num + '_' + index).append(result_div);
+
+            var analysis_div = $('<div class="test_content_nr_tt" style="font-size:16px; word-wrap:break-word; word-break:normal;">');
+            if (value.answerAnalysis==undefined || value.answerAnalysis==null || value.answerAnalysis=='') {
+                analysis_div.html('答案解析：略');
+            } else {
+                analysis_div.html('答案解析：'+value.answerAnalysis);
+            }
+
+            var thisQues = $('#qu_' + num + '_' + index);
+            thisQues.append(result_div);
+            thisQues.append(analysis_div);
+            if (value.imgAnalysis!=undefined && value.imgAnalysis!=null && value.imgAnalysis!='') { 
+                img_analysis_div = $('<div class="test_content_nr_tt">');
+                img_analysis_div.html('<img src="'+ value.imgAnalysis +'"/>');
+                thisQues.append(img_analysis_div);
+            }
         });
     }
 
-    resultEach(data.singleList, data.student_singles, 0);
-    resultEach(data.multipleList, data.student_multiples, 1);
+    resultEach(data.singleAnswerList, 0);
+    resultEach(data.multipleAnswerList, 1);
+}
+
+function pad(num, n) {
+    var numStr = num + '';
+    if (numStr.length<n) {
+        len = n - numStr.length;
+        for (i=0; i<len; i++) {
+            numStr = '0' + numStr;
+        }
+    }
+    return numStr;
+}
+   
+function getDateTime() {
+    date = new Date();
+    //外国的月份都是从0开始的，所以+1
+    month = pad(date.getMonth()+1, 2);
+    strDate = pad(date.getDate(), 2);
+    hours = pad(date.getHours(), 2);
+    minutes = pad(date.getMinutes(), 2);
+    seconds = pad(date.getSeconds(), 2);
+    //获取当前时间 yyyy-MM-dd HH:mm:ss
+    return date.getFullYear() + month + strDate + hours + minutes + seconds;
 }
 
 function submit_form() {
-    $('input[name="stuNumber"]').val('2016010001');
-    
-    $('input[name="userTime"]').val('80');
-    $('input[name="submitTime"]').val('20200119180000');
+    useTime = '';
+    if (sec=='0' || sec==0) {
+        useTime = pad(allMin-min,2) + '分';
+    } else {
+        useTime = pad(allMin-min-1,2) + '分' + pad(60-sec,2) + '秒';
+    }
+    $('input[name="useTime"]').val(useTime);
+    $('input[name="submitTime"]').val(getDateTime());
     $.ajax({
         type: "POST",
         url: "/back/exam/submitAnswer",
@@ -180,7 +223,7 @@ function submit_form() {
             var ti = 0;
             wait_time = window.setInterval(function () {
                 ti++;
-                if (ti == 5) update_index(data);
+                if (ti == 5) update_index(data.data);
             }, 1000);
         },
         error: function (e) {
