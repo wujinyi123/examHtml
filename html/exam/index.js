@@ -151,16 +151,16 @@ function update_index(data) {
 function submit_form() {
     $.ajax({
         type: "POST",
-        url: "/answer/submitAnswer",
-        data: $('#test_form').serialize(),
+        url: "/back/exam/submitAnswer",
         dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        data: $('#test_form').serialize(),
         success: function (data) {
             var ti = 0;
             wait_time = window.setInterval(function () {
                 ti++;
                 if (ti == 5) update_index(data);
             }, 1000);
-
         },
         error: function (e) {
             console.log(e);
