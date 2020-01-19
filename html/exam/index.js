@@ -1,3 +1,21 @@
+$.ajax({
+    type: "POST",
+    url: "/back/user/getUserMsg",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    data: JSON.stringify({userType:"student"}),
+    success: function(data){
+        if (data.data==null) {
+            window.parent.location.href='/index.html?code=2';
+        }
+        $('input[name="stuNumber"]').val(data.data.number);
+    },
+    error:function(e){
+        console.log(e);
+    }
+});
+
+var allMin;
 var sec = 1;
 var min;
 var type = ["single", "multiple"];
@@ -48,8 +66,10 @@ $.ajax({
             });
         }
 
-        min = data.data.time;
+        allMin = data.data.time;
+        //min = data.data.time;
         min = 1;
+        $('input[name="examCode"]').val(data.data.examCode);
         $("#test_number").text("考试码：" + data.data.examCode);
         $("#test_name").text("考试名：" + data.data.examName);
         $("#test_points").text("总分：" + data.data.score);
@@ -112,7 +132,6 @@ function ls() {
 }
 
 function update_index(data) {
-
     $('#test_time').html("考试成绩：" + data.points);
     layui.use('layer', function () {
         layui.layer.alert('<span style="font-size:16px;">考试成绩：<span style="color: #FF0000; font-size:18px;">' + data.points + '</span></span>', {icon: 1});
@@ -149,11 +168,13 @@ function update_index(data) {
 }
 
 function submit_form() {
+    $('input[name="stuNumber"]').val('2016010001');
+    
+    $('input[name="userTime"]').val('80');
+    $('input[name="submitTime"]').val('20200119180000');
     $.ajax({
         type: "POST",
         url: "/back/exam/submitAnswer",
-        dataType: "json",
-        contentType: "application/json;charset=utf-8",
         data: $('#test_form').serialize(),
         success: function (data) {
             var ti = 0;
