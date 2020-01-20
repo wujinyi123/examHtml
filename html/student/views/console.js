@@ -30,7 +30,7 @@ function showTable(data) {
     newTr.append(td7);
 
     remark = ['<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>',
-        '<span>你已参加过该考试，成绩：<span style="color:red;">'+data.myScore+'分</span></span><a class="layui-btn layui-btn-mini links_edit" href="#" target="_blank"><i class="iconfont icon-edit"></i>详情</a>',
+        '<span>你已参加过该考试，成绩：<span style="color:red;">'+data.myScore+'分</span></span><a class="layui-btn layui-btn-mini links_edit" href="#" onclick="seeExamResult(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>详情</a>',
         '<span style="color:red;">该考试已经超过截止时间，您错过了考试</span>'];
 
     td8 = $('<td>');
@@ -66,7 +66,7 @@ layui.use(['form','layer'], function(){
     });
 });
 
-function enterExam(examCode) {
+function seeExamResult(examCode) {
     $.ajax({
         type: "POST",
             url: "/back/user/getUserInfo",
@@ -85,7 +85,58 @@ function enterExam(examCode) {
                         shade: false,
                         //maxmin: true, //开启最大化最小化按钮
                         area: ['100%', '100%'],
-                        content: '/html/exam/index.html?number=' + examCode
+                        content: '/html/exam/index.html?number=' + examCode + '&seeExamResult=1'
+                    });
+            });
+        },
+        error: function (e) {
+            console.log(e);
+        }
+    });
+}
+
+function enterExam(examCode) {
+    $.ajax({
+        type: "POST",
+        url: "/back/exam/checkExam",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({examCode:examCode}),
+        success: function(data){
+            if (data.data=='enterExam') {
+                stuEnterExam(examCode);
+            } else {
+                layui.use('layer', function () {
+                    layui.layer.alert('<span style="color: #FF0000; font-size:16px;">您已参加过该考试</span>', {icon: 2});
+                });
+            }
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
+}
+
+function stuEnterExam(examCode) {
+    $.ajax({
+        type: "POST",
+            url: "/back/user/getUserInfo",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({userType:"student"}),
+            success: function (data) {
+                titleName = data.data.college + "，" + data.data.major + "专业，" + data.data.clazz + "班，" + data.data.name + "，学号：" + data.data.number;
+                titleName = '<span style="color: red;font-size: 20px">' + titleName + '</span>';
+                layui = window.parent.layui;
+                layui.use('layer', function () {
+                    layui.layer.open({
+                        type: 2,
+                        title: titleName,
+                        shadeClose: true,
+                        shade: false,
+                        //maxmin: true, //开启最大化最小化按钮
+                        area: ['100%', '100%'],
+                        content: '/html/exam/index.html?number=' + examCode + '&seeExamResult=0'
                     });
             });
         },
@@ -99,24 +150,10 @@ function cleanExamMsg() {
     $("#examMsg").html("");
 }
 
-function getNewExam() {
-    layui.use(['laypage', 'layer'], function(){
-        var laypage = layui.laypage
-        ,layer = layui.layer;
-    
-        laypage.render({
-            elem: 'pageList'
-            ,count: 100
-            ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-            ,jump: function(obj){
-              console.log(obj)
-            }
-        });
-    
-    });
-}
-
 function pageNewExam() {
+    $('#pageNewExam').remove();
+    newTable = $('<table class="layui-hide" id="pageNewExam">');
+    $('#pageNewExamFather').append(newTable);
     layui.use('table', function () {
         var table = layui.table;
         table.render({

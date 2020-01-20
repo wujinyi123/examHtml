@@ -20,7 +20,8 @@ var sec = 1;
 var min;
 var type = ["single", "multiple"];
 var input_type = ["radio", "checkbox"];
-var examCode = window.location.href.split('=')[1];
+var examCode = window.location.href.split('=')[1].split('&')[0];
+var seeExamResult = window.location.href.split('=')[2];
 $.ajax({
     type: "POST",
     url: "/back/exam/enterExam",
@@ -51,7 +52,7 @@ $.ajax({
                 var answerImgs = [value.imgA, value.imgB, value.imgC, value.imgD];
                 for (i = 0; i < 4; i++) {
                     answer_li = $('<li class="option">');
-                    option_content = '<div style="word-wrap:break-word; word-break:normal;><input value="' + options[i] + '" onclick="changeClass(' + num + ',' + index + ')" type="' + input_type[num] + '" class="radioOrCheck" name="' + type[num] + '_answer_' + index + '" id="' + type[num] + '_answer_' + index + '_option_' + options[i] + '" /><label for="' + type[num] + '_answer_' + index + '_option_' + options[i] + '">&nbsp;&nbsp;' + options[i] + '.<p class="ue" style="display: inline;">' + answers[i] + '</p></label></div>'
+                    option_content = '<div style="word-wrap:break-word; word-break:normal;"><input value="' + options[i] + '" onclick="changeClass(' + num + ',' + index + ')" type="' + input_type[num] + '" class="radioOrCheck" name="' + type[num] + '_answer_' + index + '" id="' + type[num] + '_answer_' + index + '_option_' + options[i] + '" /><label for="' + type[num] + '_answer_' + index + '_option_' + options[i] + '">&nbsp;&nbsp;' + options[i] + '.<p class="ue" style="display: inline;">' + answers[i] + '</p></label></div>'
                     if (answerImgs[i]!=undefined && answerImgs[i]!=null && answerImgs[i]!='') {
                         option_content += '<div><img src="'+answerImgs[i]+'"/></div>';
                     }
@@ -66,9 +67,6 @@ $.ajax({
             });
         }
 
-        allMin = data.data.time;
-        min = data.data.time;
-        //min = 1;
         $('input[name="examCode"]').val(data.data.examCode);
         $("#test_number").text("考试码：" + data.data.examCode);
         $("#test_name").text("考试名：" + data.data.examName);
@@ -82,7 +80,16 @@ $.ajax({
 
         forEach(data.data.singleList, 0);
         forEach(data.data.multipleList, 1);
-        setCountDown_time();
+
+        if (seeExamResult=='0') {
+            allMin = data.data.time;
+            min = data.data.time;
+            //min = 1;
+            setCountDown_time();
+        } else {
+            $('#test_submit').remove();
+            getExamResult();
+        }
     },
     error: function (e) {
         console.log(e);
@@ -91,7 +98,7 @@ $.ajax({
 
 function changeClass(num, index) {
     the_answer = $('input[name="' + type[num] + '_answer_' + index + '"]:checked').val();
-    cardLi = $('a[href=#qu_' + num + '_' + index + ']'); // 根据题目ID找到对应答题卡
+    cardLi = $('a[href="#qu_' + num + '_' + index + '"]'); // 根据题目ID找到对应答题卡
     // 设置已答题
     if (!cardLi.hasClass('hasBeenAnswer')) {
         cardLi.addClass('hasBeenAnswer');
@@ -133,9 +140,11 @@ function ls() {
 
 function update_index(data) {
     $('#test_time').html("成绩：" + data.score);
-    layui.use('layer', function () {
-        layui.layer.alert('<span style="font-size:16px;">考试成绩：<span style="color: #FF0000; font-size:18px;">' + data.score + '</span></span>', {icon: 1});
-    });
+    if (seeExamResult=='0') {
+        layui.use('layer', function () {
+            layui.layer.alert('<span style="font-size:16px;">考试成绩：<span style="color: #FF0000; font-size:18px;">' + data.score + '</span></span>', {icon: 1});
+        });
+    }
 
     function resultEach(checkAnswer, num) {
         $.each(checkAnswer, function (index, value) {
@@ -144,7 +153,7 @@ function update_index(data) {
             var result_div = $('<div class="test_content_nr_tt">');
             if (ans!=null && ans!='' && ans==stuAns) {
                 result_div.html('<span style="width: 200px; display:inline-block; font-size:16px;">本题结果：<span style="color: springgreen; font-size:18px;">正确</span></span><span style="width: 200px; display:inline-block; font-size:16px;">正确答案：<span style="color: springgreen; font-size:18px;">' + ans + '</span></span>');
-                $('a[href="' + '#qu_' + num + '_' + index + '"]').css("background-color", "rgba(0,238,0,0.5)");
+                $('a[href="#qu_' + num + '_' + index + '"]').css("background-color", "rgba(0,238,0,0.5)");
             } else {
                 if (stuAns==null && stuAns=="") {
                     stuAns='';
@@ -152,7 +161,7 @@ function update_index(data) {
                 } else {
                     result_div.html('<span style="width: 200px; display:inline-block; font-size:16px;">本题结果：<span style="color: #FF0000; font-size:18px;">错误</span></span><span style="width: 200px; display:inline-block; font-size:16px;">正确答案：<span style="color: springgreen; font-size:18px;">' + ans + '</span></span><span style="width: 200px; display:inline-block; font-size:16px;">你的答案：<span style="color: #FF0000; font-size:18px;">' + stuAns + '</span></span>');
                 }
-                $('a[href="' + '#qu_' + num + '_' + index + '"]').css("background-color", "rgba(238,0,0,0.5)");
+                $('a[href="#qu_' + num + '_' + index + '"]').css("background-color", "rgba(238,0,0,0.5)");
                 for (i = 0; i < stuAns.length; i++) {
                     $('label[for="' + type[num] + '_answer_' + index + '_option_' + stuAns[i] + '"]').css("background-color", "rgba(238,0,0,0.3)");
                 }
@@ -239,4 +248,20 @@ $('#test_submit').click(function () {
         layui.layer.alert('<span style="color: #FF0000; font-size:16px;">试卷已被提交。正在计算成绩，请稍等。</span><br/><br/><span style="color: springgreen; font-size:18px;">感谢您的使用！</span>', {icon: 1});
     });
     submit_form();
-})
+});
+
+function getExamResult() {
+    $.ajax({
+        type: "POST",
+        url: "/back/exam/getExamResult",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({examCode:examCode}),
+        success: function(data){
+            update_index(data.data);
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
+}
