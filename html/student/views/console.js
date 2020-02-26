@@ -151,9 +151,9 @@ function cleanExamMsg() {
 }
 
 function pageNewExam() {
-    $('#pageNewExam').remove();
-    newTable = $('<table class="layui-hide" id="pageNewExam">');
-    $('#pageNewExamFather').append(newTable);
+    $('#pageNewExam').html("");
+    //newTable = $('<table class="layui-hide" id="pageNewExam">');
+    //$('#pageNewExamFather').append(newTable);
     layui.use('table', function () {
         var table = layui.table;
         table.render({
