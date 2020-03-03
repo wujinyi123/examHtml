@@ -1,4 +1,4 @@
-var login = $('input[name="login"]').val("admin001");
+var login = $('input[name="login"]').val("100001");
 var pwd = $('input[name="pwd"]').val("123456");
 
 var canGetCookie = 1;//是否支持存储Cookie 0 不支持 1 支持

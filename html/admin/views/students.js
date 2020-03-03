@@ -1,12 +1,12 @@
-function pageTeacher() {
+function pageStudent() {
     sex = $('select[name="sex"]').val();
     term = $('input[name="term"]').val();
-    $('#teachers').html("");
+    $('#students').html("");
     layui.use('table', function () {
         var table = layui.table;
         table.render({
-            elem: '#teachers',
-            url: '/back/manage/pageTeacher?sex='+sex+'&term='+term,
+            elem: '#students',
+            url: '/back/manage/pageStudent?sex='+sex+'&term='+term,
             page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                 limits: [5, 10, 15],
@@ -23,11 +23,13 @@ function pageTeacher() {
                 }
             },
             cols: [[
-                {field: 'number', title: '教师号', sort: true},
+                {field: 'number', title: '学号', sort: true},
                 {field: 'name', title: '姓名', sort: true},
                 {field: 'sex', title: '性别', sort: true},
                 {field: 'college', title: '学院', sort: true},
                 {field: 'collegeCode', title: '学院代码', sort: true},
+                {field: 'clazz', title: '班级号', sort: true},
+                {field: 'clazzName', title: '专业', sort: true},
                 {field: 'tel', title: '电话', sort: true},
                 {field: 'email', title: '邮箱', sort: true}
             ]]
@@ -35,14 +37,14 @@ function pageTeacher() {
     });
 }
 
-var errorTeacher = {};
+var errorStudent = {};
 layui.use('upload', function(){
     var upload = layui.upload;
      
     //执行实例
     var uploadInst = upload.render({
       elem: '#insert' //绑定元素
-      ,url: '/back/manage/insert?type=teacher' //上传接口
+      ,url: '/back/manage/insert?type=student' //上传接口
       ,accept: 'file'
       ,done: function(res){
         //上传完毕回调
@@ -59,7 +61,7 @@ layui.use('upload', function(){
         } else {
             $('#errorTbodys').children().remove();
             $('#errorSpan').html("以下是导入出错的信息，共"+res.data.fail+"条  ");
-            errorTeacher = {type:"teacher",dataList:res.data.dataList};
+            errorStudent = {type:"student",dataList:res.data.dataList};
             $.each(res.data.dataList, function (index, value) {
                 newTr = $('<tr>');
 
@@ -91,6 +93,10 @@ layui.use('upload', function(){
                 td7.html(value[6]);
                 newTr.append(td7);
 
+                td8 = $('<td>');
+                td8.html(value[7]);
+                newTr.append(td8);
+
                 $('#errorTbodys').append(newTr);
             });
             $('#insertError').css('display','block');
@@ -111,7 +117,7 @@ layui.use('upload', function(){
         type: "POST",
         url: "/back/manage/insertError",
         contentType: "application/json;charset=utf-8",
-        data: JSON.stringify(errorTeacher),
+        data: JSON.stringify(errorStudent),
         success: function(data){
 
         },

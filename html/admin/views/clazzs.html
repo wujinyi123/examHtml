@@ -14,11 +14,11 @@
         <div class="layui-page-header">
             <div class="pagewrap">
                 <span class="layui-breadcrumb">
-                  <a href="">首页</a>
-                  <a href="">用户</a>
-                  <a><cite>教师管理</cite></a>
-                </span>
-                <h2 class="title">教师管理</h2>
+                    <a href="">首页</a>
+                    <a href="">学院/班级</a>
+                    <a><cite>班级管理</cite></a>
+                  </span>
+                  <h2 class="title">班级管理</h2>
             </div>
         </div>
         <div class="layui-row">
@@ -27,27 +27,19 @@
                     <div class="form-box">
                         <div class="layui-form layui-form-item">
                             <div class="layui-inline">
-                                <div class="layui-form-mid">性别:</div>
-                                <div class="layui-input-inline" style="width: 100px;">
-                                    <select name="sex">
-                                      <option value="0">不限</option>
-                                      <option value="男">男</option>
-                                      <option value="女">女</option>
-                                    </select>     
-                                </div>
-                                <div class="layui-form-mid">模糊条件(学院/学院代码/教师号/姓名):</div>
+                                <div class="layui-form-mid">模糊条件(学院/学院代码/班级号/专业):</div>
                                 <div class="layui-input-inline" style="width: 100px;">
                                   <input type="text" id="term" name="term" autocomplete="off" class="layui-input">
                                 </div>
-                                <button class="layui-btn layui-btn-blue" onclick="pageTeacher()">查询</button>
+                                <button class="layui-btn layui-btn-blue" onclick="pageStudent()">查询</button>
                             </div>
                         </div>
-                        <table id="teachers"></table>
+                        <table id="students"></table>
                     </div>
                 </div>
                 <div class="layui-card-body">
                     <button class="layui-btn layui-btn-blue" id="insert"><i class="layui-icon">&#xe654;</i>新增/导入</button>
-                    <a class="layui-btn layui-btn-blue" href="/back/manage/downloadTemplate?type=teacher">下载Excel导入模板</a>
+                    <a class="layui-btn layui-btn-blue" href="/back/manage/downloadTemplate?type=clazz">下载Excel导入模板</a>
                     <a class="layui-btn layui-btn-blue" href="/back/manage/instructions">导入说明</a>
                     <div id="insertError" style="display: none; ">
                         <div style="height: 30px;"></div>
@@ -55,7 +47,7 @@
                         <button class="layui-btn layui-btn-blue" onclick="exportError()">导出Excel</button>
                         <table class="layui-table" id="errorTable">
                             <thead>
-                                <tr><th>教师号</th><th>姓名</th><th>性别</th><th>电话</th><th>邮箱</th><th>学院代码</th><th>错误信息</th></tr> 
+                                <tr><th>学号</th><th>姓名</th><th>性别</th><th>电话</th><th>邮箱</th><th>学院代码</th><th>班级号</th><th>错误信息</th></tr> 
                             </thead>
                             <tbody id="errorTbodys"></tbody>
                         </table>
@@ -66,7 +58,7 @@
     </div>
     <script src="../assets/layui.all.js"></script>
     <script src="/js/jquery-3.3.1.min.js"></script>
-    <script src="teachers.js"></script>
+    <script src="students.js"></script>
 
 </body>
 </html>

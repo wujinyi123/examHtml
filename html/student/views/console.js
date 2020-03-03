@@ -120,24 +120,24 @@ function enterExam(examCode) {
 function stuEnterExam(examCode) {
     $.ajax({
         type: "POST",
-            url: "/back/user/getUserInfo",
-            dataType: "json",
-            contentType: "application/json;charset=utf-8",
-            data: JSON.stringify({userType:"student"}),
-            success: function (data) {
-                titleName = data.data.college + "，" + data.data.major + "专业，" + data.data.clazz + "班，" + data.data.name + "，学号：" + data.data.number;
-                titleName = '<span style="color: red;font-size: 20px">' + titleName + '</span>';
-                layui = window.parent.layui;
-                layui.use('layer', function () {
-                    layui.layer.open({
-                        type: 2,
-                        title: titleName,
-                        shadeClose: true,
-                        shade: false,
-                        //maxmin: true, //开启最大化最小化按钮
-                        area: ['100%', '100%'],
-                        content: '/html/exam/index.html?number=' + examCode + '&seeExamResult=0'
-                    });
+        url: "/back/user/getUserInfo",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({userType:"student"}),
+        success: function (data) {
+            titleName = data.data.college + "，" + data.data.major + "专业，" + data.data.clazz + "班，" + data.data.name + "，学号：" + data.data.number;
+            titleName = '<span style="color: red;font-size: 20px">' + titleName + '</span>';
+            layui = window.parent.layui;
+            layui.use('layer', function () {
+                layui.layer.open({
+                    type: 2,
+                    title: titleName,
+                    shadeClose: true,
+                    shade: false,
+                    //maxmin: true, //开启最大化最小化按钮
+                    area: ['100%', '100%'],
+                    content: '/html/exam/index.html?number=' + examCode + '&seeExamResult=0'
+                });
             });
         },
         error: function (e) {
