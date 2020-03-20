@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <title></title>
+    <style>
+      textarea{
+        height: 50px;
+      }
+    </style>
+</head>
+<body class="layui-view-body">
+    <div class="layui-content">
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-card-header">试卷管理</div>
+                <form class="layui-form layui-card-body" action="">
+                  <div>单选题（共10题，共50分）</div>
+                  <hr class="layui-bg-red">
+                  
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">第1题，5分</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="title" required lay-verify="required" placeholder="请输入内容" autocomplete="off" class="layui-input">
+                      <button class="layui-btn" id="xxx_" onclick="fx(this.id)">上传图片</buttonclass="layui-btn layui-btn-blue">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">A选项</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="title" required lay-verify="required" placeholder="请输入A选项" autocomplete="off" class="layui-input">
+                      <button class="layui-btn" id="xxA_" onclick="fx()">上传图片</button>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">B选项</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="title" required lay-verify="required" placeholder="请输入B选项" autocomplete="off" class="layui-input">
+                      <button class="layui-btn" id="xxB_" onclick="fx()">上传图片</button>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">C选项</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="title" required lay-verify="required" placeholder="请输入C选项" autocomplete="off" class="layui-input">
+                      <button class="layui-btn" id="xxC_" onclick="fx()">上传图片</button>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">D选项</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="title" required lay-verify="required" placeholder="请输入D选项" autocomplete="off" class="layui-input">
+                      <button class="layui-btn layui-btn-blue" id="xxD_" onclick="fx()">上传图片</button>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">答案</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="title" required lay-verify="required" placeholder="请输入答案" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">答案解析</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="title" required lay-verify="required" placeholder="请输入答案解析" autocomplete="off" class="layui-input">
+                      <button class="layui-btn layui-btn-blue" id="yyy_" onclick="fx()">上传图片</button>
+                    </div>
+                  </div>
+                  <hr class="layui-bg-blue">
+
+                  <div class="layui-form-item">
+                    <div class="layui-input-block">
+                      <button class="layui-btn layui-btn-blue" lay-submit lay-filter="formDemo">立即提交</button>
+                      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                  </div>
+                </form>  
+            </div>
+        </div>
+    </div>
+    <script src="../assets/layui.all.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script>
+      var form = layui.form
+        ,layer = layui.layer;
+
+      var imgIdName = '';
+      function fx(thisId) {
+        imgIdName = thisId;
+        alert(imgIdName);
+      }
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <title></title>
+</head>
+<body class="layui-view-body">
+    <div class="layui-content">
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-card-header">出题</div>
+                <div id="imgDiv"></div>
+                <form class="layui-form layui-card-body" method="POST" id="examForm">
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">小测名称</label>
+                    <div class="layui-input-block">
+                      <input type="text" id="examName" name="examName" required  lay-verify="required" placeholder="请输入小测名称" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">小测总分</label>
+                    <div class="layui-input-block">
+                      <input type="text" id="examScore" name="examScore" placeholder="请输入小测总分，总分=单选题总分+多选题总分" onkeyup="value=zhzs(this.value)" required  lay-verify="number" autocomplete="off" class="layui-input" value="100">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">时间(分钟)</label>
+                    <div class="layui-input-block">
+                      <input type="text" id="examTime" name="examTime" onkeyup="value=zhzs(this.value)" required  lay-verify="number" placeholder="请输入正整数" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">截止时间</label>
+                    <div class="layui-input-block">
+                      <input type="text" class="layui-input" id="expDate" name="expDate" placeholder="yyyy-MM-dd HH:mm:ss" lay-verify="required" autocomplete="off">
+                    </div>
+                  </div>
+
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">单选题数</label>
+                    <div class="layui-input-block">
+                      <input type="text" id="singles" name="singles" onkeyup="value=zhzs(this.value)" required  lay-verify="number" placeholder="请输入正整数" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">单选题总分</label>
+                    <div class="layui-input-block">
+                      <input type="text" id="singleScore" name="singleScore" onkeyup="value=zhzs(this.value)" required  lay-verify="number" placeholder="请输入正整数，并不小于单选题数" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+                  
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">多选题数</label>
+                    <div class="layui-input-block">
+                      <input type="text" id="multiples" name="multiples" onkeyup="value=zhzs(this.value)" required  lay-verify="number" placeholder="请输入正整数" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">多选题总分</label>
+                    <div class="layui-input-block">
+                      <input type="text" id="multipleScore" name="multipleScore" onkeyup="value=zhzs(this.value)" required  lay-verify="number" placeholder="请输入正整数，并不小于多选题数" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+
+                  <div class="layui-form-item">
+                    <div class="layui-input-block">
+                      <button class="layui-btn layui-btn-blue" lay-submit lay-filter="newExam">立即提交</button>
+                      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                  </div>
+                </form>  
+            </div>
+        </div>
+    </div>
+    <script src="../assets/layui.all.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="newExam.js"></script>
+</body>
+</html>

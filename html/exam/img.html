@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"/>
+</head>
+<body>
+    <div>
+        <input type="radio" name="xxx" value="1">
+        <input type="radio" name="xxx" value="2">
+        <input type="radio" name="xxx" value="3">
+    </div>
+    <div class="layui-row">
+        <div class="layui-card">
+            <div style="height: 15px;"></div>
+            <div class="layui-upload" id="imgDiv">
+              <button type="button" class="layui-btn" id="test1">上传图片</button>
+              <div class="layui-upload-list">
+                <img class="layui-upload-img" id="demo1" style="height: 150px;">
+                <p id="demoText"></p>
+              </div>
+            </div>  
+        </div>
+    </div>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/layui.all.js"></script>
+    <script>
+        var examCode = 'test';
+        //var examCode = window.location.href.split("&")[0].split("=")[1];
+        var imgName = window.location.href.split("&")[1].split("=")[1];
+        var imgUrl = '/exam/'+examCode+'/'+imgName;
+        //$('#demo1').attr('src', '/imgFile'+imgName);
+
+        layui.use('upload', function(){
+            var $ = layui.jquery
+            ,upload = layui.upload;
+            //普通图片上传
+            var uploadInst = upload.render({
+            elem: '#test1'
+            ,url: '/back/exam/imgUpload?imgUrl='+imgUrl //改成您自己的上传接口
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                
+                //上传成功
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                uploadInst.upload();
+                });
+            }
+            });
+        });
+    </script>
+</body>
+</html>

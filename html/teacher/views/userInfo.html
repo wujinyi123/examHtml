@@ -16,6 +16,11 @@
           position: relative;
           top: 9px;
         }
+        #imgDiv{
+          transform:translateX(100px);
+            -webkit-transform:translateX(100px);  /*兼容-webkit-引擎浏览器*/
+            -moz-transform:translateX(100px);     /*兼容-moz-引擎浏览器*/
+        }
     </style>
 </head>
 <body class="layui-view-body">
@@ -32,7 +37,16 @@
         </div>
         <div class="layui-row">
             <div class="layui-card">
-                <form class="layui-form" action="">
+                <div style="height: 15px;"></div>
+                <div class="layui-upload" id="imgDiv">
+                  <button type="button" class="layui-btn" id="test1">上传头像</button>
+                  <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="demo1" style="height: 100px;">
+                    <p id="demoText"></p>
+                  </div>
+                </div>  
+
+                <form class="layui-form" action="" id="thisForm">
                     <div class="layui-form-item">
                         <label class="layui-form-label">学院：</label>
                         <label id="collegeName" class="labelMessage"></label>
@@ -67,59 +81,13 @@
                           <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
+                    <div style="height: 15px;"></div>
                 </form>
             </div>
         </div>
     </div>
     <script src="../assets/layui.all.js"></script>
     <script src="../../../js/jquery-3.3.1.min.js"></script>
-    <script>
-      $.ajax({
-          type: "POST",
-          url: "/back/user/getUserInfo",
-          dataType: "json",
-          contentType: "application/json;charset=utf-8",
-          data: JSON.stringify({userType:"teacher"}),
-          success: function(data){
-              $("#collegeName").html(data.data.college);
-              $("#teacherNumber").html(data.data.number);
-              $("#teacherName").html(data.data.name);
-              $("#teacherSex").html(data.data.sex);
-              $("#teacherTel").val(data.data.tel);
-              $("#teacherEmail").val(data.data.email);
-          },
-          error:function(e){
-              console.log(e);
-          }
-      });
-
-      layui.use(['form','layer'], function(){
-          layui.form.on('submit(change)', function(dataForm){
-              $.ajax({
-                  type: "POST",
-                  url: "/back/user/udateTelEmail",
-                  dataType: "json",
-                  contentType: "application/json;charset=utf-8",
-                  data: JSON.stringify({userType:"teacher",tel:$('#teacherTel').val(),email:$('#teacherEmail').val()}),
-                  success: function(data){
-                      if (data.data.state=='no') {
-                        layui.layer.alert('<span style="color: #FF0000; font-size:16px;">'+data.data.msg+'</span>',{icon:2});
-                      } else {
-                        layui.layer.alert('<span style="font-size:16px;">'+data.data.msg+'</span>',{icon:1},function(){
-                          window.location.href = window.location.href;
-                        });
-                        setTimeout(function () {
-                            window.location.href = window.location.href;
-                        }, 2000);
-                      }
-                  },
-                  error:function(e){
-                      console.log(e);
-                  }
-              });
-              return false;
-          });
-      });
-    </script>
+    <script src="userInfo.js"></script>
 </body>
 </html>
