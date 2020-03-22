@@ -34,7 +34,11 @@ function imgUpload(imgName) {
     } else {
         titleName = titleName + arr[2] + '选项';
     }
-
+    layui.use(['form','layer'], function(){   
+        layui.form.on('submit(newExam)', function(dataForm){
+            return false;
+        });
+    });
     layui.use('layer', function () {
         layui.layer.open({
             type: 2,
@@ -43,9 +47,10 @@ function imgUpload(imgName) {
             // shade: false,
             //maxmin: true, //开启最大化最小化按钮
             area: ['50%', '80%'],
-            content: '/html/exam/img.html?examCode='+$('#examCode').val()+'&imgName=' + imgName
+            content: '/html/exam/img.html?examCode='+$('#examCode').val()+'&imgName=' + imgName + '&imgsrc=' + $('#'+imgName+'_img').text()
         });
     });
+    
 }
 
 function enterQuestions(name,type,num,score) {
@@ -110,6 +115,11 @@ function theFormEnd(thisData) {
     $("#examForm").append('<input type="text" id="multipleScore" name="multipleScore" value="'+thisData.multipleScore+'" style="display:none;"/>');
 
     formSubmit = $('<div class="layui-form-item">');
+
+    finishDiv = $('<div class="layui-input-block">');
+    finishDiv.append($('<input type="checkbox" id="isOK" name="isOK" lay-skin="primary" required lay-verify="required" value="ok" title="确定无误">'));
+    formSubmit.append(finishDiv);
+
     formSubmitDiv = $('<div class="layui-input-block">');
     buttonSubmit = $('<button class="layui-btn layui-btn-blue" lay-submit lay-filter="formExam">');
     buttonSubmit.html("立即提交");
@@ -148,7 +158,13 @@ function getList(examCode,typeCode,type,score,num) {
             optionC:$('#'+type+'_'+i+'_C').val(),
             optionD:$('#'+type+'_'+i+'_D').val(),
             answer:answer,
-            analysis:$('#'+type+'_'+i+'_analysis').val()
+            analysis:$('#'+type+'_'+i+'_analysis').val(),
+            imgQuestion:$('#'+type+'_'+i+'_question_img').html(),
+            imgA:$('#'+type+'_'+i+'_A_img').html(),
+            imgB:$('#'+type+'_'+i+'_B_img').html(),
+            imgC:$('#'+type+'_'+i+'_C_img').html(),
+            imgD:$('#'+type+'_'+i+'_D_img').html(),
+            imgAnalysis:$('#'+type+'_'+i+'_analysis_img').html()
         };
         dataList.push(data);
     }
@@ -231,6 +247,17 @@ layui.use(['form','layer'], function(){
         if (singleList==null || multipleList==null) {
             layui.use('layer', function () {
                 layui.layer.alert('<span style="color: #FF0000; font-size:16px;">部分多选题，答案未选或只选了一个，请重新检查</span>', {icon: 2});
+            });
+            return false;
+        }
+
+        isOK = '';
+        $('input[name="isOK"]:checked').each(function(){   
+            isOK = isOK + $(this).val();  
+        });
+        if (isOK=='') {
+            layui.use('layer', function () {
+                layui.layer.alert('<span style="color: #FF0000; font-size:16px;">请勾选确认无误</span>', {icon: 2});
             });
             return false;
         }

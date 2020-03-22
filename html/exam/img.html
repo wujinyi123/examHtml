@@ -6,11 +6,6 @@
     <link rel="stylesheet" href="/layui/css/layui.css"/>
 </head>
 <body>
-    <div>
-        <input type="radio" name="xxx" value="1">
-        <input type="radio" name="xxx" value="2">
-        <input type="radio" name="xxx" value="3">
-    </div>
     <div class="layui-row">
         <div class="layui-card">
             <div style="height: 15px;"></div>
@@ -25,12 +20,15 @@
     </div>
     <script src="/layui/layui.js"></script>
     <script src="/layui/layui.all.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
     <script>
         var examCode = 'test';
         //var examCode = window.location.href.split("&")[0].split("=")[1];
         var imgName = window.location.href.split("&")[1].split("=")[1];
+        var imgsrc = window.location.href.split("&")[2].split("=")[1];
         var imgUrl = '/exam/'+examCode+'/'+imgName;
-        //$('#demo1').attr('src', '/imgFile'+imgName);
+        
+        $('#demo1').attr('src', imgsrc);
 
         layui.use('upload', function(){
             var $ = layui.jquery
@@ -47,11 +45,11 @@
             }
             ,done: function(res){
                 //如果上传失败
-                if(res.code > 0){
+                if(res.data.code != 1){
                     return layer.msg('上传失败');
                 }
-                
                 //上传成功
+                window.parent.$('#'+imgName+'_img').html(res.data.imgUrl);
             }
             ,error: function(){
                 //演示失败状态，并实现重传
