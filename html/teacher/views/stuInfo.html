@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"/>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/layui.all.js"></script>
+</head>
+<body>
+    <div class="layui-card">
+        <div class="layui-card-header" id="stuNumber"></div>
+        <form class="layui-form layui-card-body">
+            <div class="layui-form-item">
+              <label class="layui-form-label">头像</label>
+              <div class="layui-input-block" id="img">
+                <img id="img" style="width: 100px;">
+              </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                  <input type="text" id="stuName" name="stuName" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">性别</label>
+              <div class="layui-input-block">
+                <input type="text" id="sex" name="sex" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">学院</label>
+                <div class="layui-input-block">
+                  <input type="text" id="college" name="college" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">班级</label>
+                <div class="layui-input-block">
+                  <input type="text" id="clazz" name="clazz" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">专业</label>
+                <div class="layui-input-block">
+                  <input type="text" id="major" name="major" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机</label>
+                <div class="layui-input-block">
+                  <input type="text" id="tel" name="tel" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                  <input type="text" id="email" name="email" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </form>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/layui.all.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script>
+        var stuNumber=window.location.href.split("=")[1];
+        $('#stuNumber').html(stuNumber);
+
+        $.ajax({
+          type: "POST",
+          url: "/back/user/getUserInfo",
+          dataType: "json",
+          contentType: "application/json;charset=utf-8",
+          data: JSON.stringify({userType:"student",number:stuNumber}),
+          success: function(data){
+            $('#img').append('<img id="img" src="'+data.data.img+'" onclick="bigger(\''+data.data.img+'\')" style="width: 100px;">')
+            $('#stuName').val(data.data.name);
+            $('#sex').val(data.data.sex);
+            $('#college').val(data.data.college);
+            $('#clazz').val(data.data.clazz);
+            $('#major').val(data.data.major);
+            $('#tel').val(data.data.tel);
+            $('#email').val(data.data.email);
+          },
+          error:function(e){
+              console.log(e);
+          }
+        });
+
+        function bigger(imgSrc) {
+          layui.use('layer', function () {
+            layui.layer.alert('<img src="'+imgSrc+'" style="height: 200px;">');
+          });
+        }
+
+    </script>
+</body>
+</html>

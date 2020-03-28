@@ -5,6 +5,59 @@ layui.use(['form','layer'], function(){
     });
 });
 
+
+function seeExam(examCode) {
+    layui.use('layer', function () {
+        layui.layer.open({
+            type: 2,
+            title: '查看试卷',
+            // shadeClose: false,
+            // shade: false,
+            //maxmin: true, //开启最大化最小化按钮
+            area: ['90%', '90%'],
+            content: '/html/exam/seeExam.html?examCode='+examCode
+        });
+    });
+}
+
+function deleteExam(examCode) {
+    $.ajax({
+        type: "POST",
+        url: "/back/exam/deleteExam?examCode="+examCode,
+        dataType: "json",
+        success: function(data){
+            console.log(data);
+            if (data.data==0 || data.data=='0') {
+                layui.use('layer', function () {
+                    layui.layer.alert('<span style="font-size:16px;">删除失败</span>', {icon: 2});
+                });
+            } else {
+                layui.use('layer', function () {
+                    layui.layer.alert('<span style="font-size:16px;">删除成功</span>', {icon: 1});
+                });
+            }
+            pageExam();
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
+}
+
+function examNotice(examCode) {
+    layui.use('layer', function () {
+        layui.layer.open({
+            type: 2,
+            title: '通知班级',
+            // shadeClose: false,
+            // shade: false,
+            //maxmin: true, //开启最大化最小化按钮
+            area: ['80%', '80%'],
+            content: '/html/exam/notice.html?examCode='+examCode
+        });
+    });
+}
+
 function pageExam() {
     examTerm = $('#examTerm').val();
     $('#exams').html("");
@@ -30,15 +83,16 @@ function pageExam() {
             },
             cols: [[
                 {field: 'examCode', title: '考试码', sort: true},
-                {field: 'examName', title: '小测名称', sort: true},
-                {field: 'score', title: '小测总分', sort: true},
-                {field: 'time', title: '总时间', sort: true},
-                {field: 'pdDate', title: '开始时间', sort: true},
-                {field: 'expDate', title: '结束时间', sort: true},
+                {field: 'examName', title: '名称', sort: true},
+                {field: 'score', width:80, title: '总分', sort: true},
+                {field: 'time', width:100, title: '总时间', sort: true},
+                {field: 'pdDate', width:160, title: '开始时间', sort: true},
+                {field: 'expDate', width:160, title: '结束时间', sort: true},
                 {
-                    field: 'id', title: '操作', sort: true, templet: function (data) {
+                    field: 'id', width:240, title: '操作', sort: true, templet: function (data) {
                         return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="seeExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>查看</a>'
-                        +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="seeExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>删除</a>';
+                        +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="deleteExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>删除</a>'
+                        +'<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="examNotice(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>通知</a>';
                     }
                 }
             ]]

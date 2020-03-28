@@ -141,7 +141,7 @@ function check_login(data){
 			setTimeout(function () {
 				$.cookie(data.userType+configData.projectName ,data.msg);
 				window.location.href="html/" + data.userType + "/index.html";
-			}, 2000);
+			}, 1500);
 		} else {
 			AjaxErro({"Status":"Erro","Erro":data.msg});
 		}

@@ -1,27 +1,33 @@
-$.ajax({
-    type: "POST",
-    url: "/back/user/getUserMsg",
-    dataType: "json",
-    contentType: "application/json;charset=utf-8",
-    data: JSON.stringify({userType:"student"}),
-    success: function(data){
-        if (data.data==null) {
-            window.parent.location.href='/index.html?code=2';
-        }
-        $('input[name="stuNumber"]').val(data.data.number);
-    },
-    error:function(e){
-        console.log(e);
-    }
-});
-
 var allMin;
 var sec = 1;
 var min;
 var type = ["single", "multiple"];
 var input_type = ["radio", "checkbox"];
 var examCode = window.location.href.split('=')[1].split('&')[0];
-var seeExamResult = window.location.href.split('=')[2];
+var seeExamResult = window.location.href.split('=')[2].split('&')[0];
+var stuNumber = window.location.href.split('=')[3];
+
+if (stuNumber=='0' || stuNumber==0) {
+    $.ajax({
+        type: "POST",
+        url: "/back/user/getUserMsg",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({userType:"student"}),
+        success: function(data){
+            if (data.data==null) {
+                window.parent.location.href='/index.html?code=2';
+            }
+            $('input[name="stuNumber"]').val(data.data.number);
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
+} else {
+    $('input[name="stuNumber"]').val(stuNumber);
+}
+
 $.ajax({
     type: "POST",
     url: "/back/exam/enterExam",
@@ -215,6 +221,18 @@ function getDateTime() {
     return date.getFullYear() + month + strDate + hours + minutes + seconds;
 }
 
+function getList(type,num) {
+    dataList = [];
+    for (i=0; i<parseInt(num); i++) {
+        answer = '';
+        $('input[name="'+type+'_answer_'+i+'"]:checked').each(function(){   
+            answer = answer + $(this).val();
+        });
+        dataList.push(answer);
+    }
+    return dataList;
+}
+
 function submit_form() {
     useTime = '';
     if (sec=='0' || sec==0) {
@@ -224,10 +242,20 @@ function submit_form() {
     }
     $('input[name="useTime"]').val(useTime);
     $('input[name="submitTime"]').val(getDateTime());
+    josnData = {
+        examCode:$('input[name="examCode"]').val(),
+        stuNumber:$('input[name="stuNumber"]').val(),
+        useTime:useTime,
+        submitTime:getDateTime(),
+        singleList:getList('single',$("#single_num").html()),
+        multipleList:getList('multiple',$("#multiple_num").html())
+    };
     $.ajax({
         type: "POST",
         url: "/back/exam/submitAnswer",
-        data: $('#test_form').serialize(),
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify(josnData),
         success: function (data) {
             var ti = 0;
             wait_time = window.setInterval(function () {
@@ -256,7 +284,7 @@ function getExamResult() {
         url: "/back/exam/getExamResult",
         dataType: "json",
         contentType: "application/json;charset=utf-8",
-        data: JSON.stringify({examCode:examCode}),
+        data: JSON.stringify({examCode:examCode,number:$('input[name="stuNumber"]').val()}),
         success: function(data){
             update_index(data.data);
         },

@@ -5,10 +5,10 @@ $.ajax({
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify({userType:"teacher"}),
     success: function(data){
-        $("#collegeName").html(data.data.college);
-        $("#teacherNumber").html(data.data.number);
-        $("#teacherName").html(data.data.name);
-        $("#teacherSex").html(data.data.sex);
+        $("#collegeName").val(data.data.college);
+        $("#teacherNumber").val(data.data.number);
+        $("#teacherName").val(data.data.name);
+        $("#teacherSex").val(data.data.sex);
         $("#teacherTel").val(data.data.tel);
         $("#teacherEmail").val(data.data.email);
         $('#demo1').attr('src', data.data.img);
@@ -61,10 +61,13 @@ layui.use('upload', function(){
       }
       ,done: function(res){
         //如果上传失败
-        if(res.code > 0){
+        if(res.data.code != 1){
           return layer.msg('上传失败');
         }
         //上传成功
+        layui.use('layer', function () {
+            layui.layer.alert('<span style="font-size:16px;">上传成功</span>', {icon: 1});
+        });
       }
       ,error: function(){
         //演示失败状态，并实现重传

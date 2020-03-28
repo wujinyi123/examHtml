@@ -22,8 +22,7 @@
     <script src="/layui/layui.all.js"></script>
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script>
-        var examCode = 'test';
-        //var examCode = window.location.href.split("&")[0].split("=")[1];
+        var examCode = window.location.href.split("&")[0].split("=")[1];
         var imgName = window.location.href.split("&")[1].split("=")[1];
         var imgsrc = window.location.href.split("&")[2].split("=")[1];
         var imgUrl = '/exam/'+examCode+'/'+imgName;
@@ -50,6 +49,9 @@
                 }
                 //上传成功
                 window.parent.$('#'+imgName+'_img').html(res.data.imgUrl);
+                layui.use('layer', function () {
+                    layui.layer.alert('<span style="font-size:16px;">上传成功</span>', {icon: 1});
+                });
             }
             ,error: function(){
                 //演示失败状态，并实现重传

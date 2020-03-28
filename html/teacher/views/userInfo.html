@@ -9,13 +9,6 @@
     <link rel="icon" href="/favicon.ico">
     <title>学生在线小测系统-个人资料</title>
     <style>
-        #teacherTel,#teacherEmail{
-          width: 300px;
-        }
-        .labelMessage{
-          position: relative;
-          top: 9px;
-        }
         #imgDiv{
           transform:translateX(100px);
             -webkit-transform:translateX(100px);  /*兼容-webkit-引擎浏览器*/
@@ -49,19 +42,27 @@
                 <form class="layui-form" action="" id="thisForm">
                     <div class="layui-form-item">
                         <label class="layui-form-label">学院：</label>
-                        <label id="collegeName" class="labelMessage"></label>
+                        <div class="layui-input-block">
+                          <input type="text" id="collegeName" name="collegeName" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
                     <div class="layui-form-item">
                       <label class="layui-form-label">账号：</label>
-                      <label id="teacherNumber" class="labelMessage"></label>
+                      <div class="layui-input-block">
+                        <input type="text" id="teacherNumber" name="teacherNumber" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                      </div>
                     </div>
                     <div class="layui-form-item">
                       <label class="layui-form-label">姓名：</label>
-                      <label id="teacherName" class="labelMessage"></label>
+                      <div class="layui-input-block">
+                        <input type="text" id="teacherName" name="teacherName" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                      </div>
                     </div>
                     <div class="layui-form-item">
                       <label class="layui-form-label">性别：</label>
-                      <label id="teacherSex" class="labelMessage"></label>
+                      <div class="layui-input-block">
+                        <input type="text" id="teacherSex" name="teacherSex" disabled required  lay-verify="required" autocomplete="off" class="layui-input">
+                      </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">手机号码</label>

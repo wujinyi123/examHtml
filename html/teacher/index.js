@@ -41,7 +41,7 @@ $.ajax({
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify({userType:"teacher"}),
     success: function(data){
-        if (data.data==null) {
+        if (data.data.number==undefined || data.data.number==null || data.data.number=='') {
             window.location.href='/index.html?code=2';
         }
         $("#realName").html(data.data.name);

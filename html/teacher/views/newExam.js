@@ -18,6 +18,20 @@ function zhzs(value){
     return value;
 }
 
+function zhzs2(value){
+    value = value.replace(/[^\d]/g,'');
+    if(''!=value){
+     value = parseInt(value);
+    }
+
+    if ($('#singleScore').val()!='' && $('#examScore').val()!='') {
+        $('#multipleScore').val(parseInt($('#examScore').val())-parseInt($('#singleScore').val()));
+        return value;
+    }
+
+    return value;
+}
+
 function imgUpload(imgName) {
     arr = imgName.split("_");
     titleName = '';
@@ -51,6 +65,37 @@ function imgUpload(imgName) {
         });
     });
     
+}
+
+function deleteImg(imgId) {
+    if ($('#'+imgId).html()=='') {
+        layui.use('layer', function () {
+            layui.layer.alert('<span style="color: #FF0000; font-size:16px;">没有该图片</span>', {icon: 2});
+        });
+        return;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/back/exam/deleteImg",
+        dataType: "json",
+        data: 'imgUrl='+$('#'+imgId).html(),
+        success: function(data){
+            if (data.data=='ok') {
+                layui.use('layer', function () {
+                    layui.layer.alert('<span style="font-size:16px;">已删除图片</span>', {icon: 1});
+                });
+                $('#'+imgId).html('');
+            } else {
+                layui.use('layer', function () {
+                    layui.layer.alert('<span style="color: #FF0000; font-size:16px;">没有该图片</span>', {icon: 2});
+                });
+            }
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
 }
 
 function enterQuestions(name,type,num,score) {
@@ -91,6 +136,7 @@ function enterQuestions(name,type,num,score) {
                 btn = $('<button class="layui-btn layui-btn-blue">上传/查看图片</button>');
                 btn.attr('onclick', 'imgUpload("'+thisIdName+'")');
                 thisInputDiv.append(btn);
+                thisInputDiv.append('<button type="button" onclick="deleteImg(\''+thisIdName+'_img'+'\')" class="layui-btn layui-btn-danger"><i class="layui-icon"></i></button>');
                 thisInputDiv.append($('<label id="'+thisIdName+'_img">'))
             }
 
@@ -171,6 +217,20 @@ function getList(examCode,typeCode,type,score,num) {
     return dataList;
 }
 
+function examNotice(examCode) {
+    layui.use('layer', function () {
+        layui.layer.open({
+            type: 2,
+            title: '通知班级',
+            // shadeClose: false,
+            // shade: false,
+            //maxmin: true, //开启最大化最小化按钮
+            area: ['80%', '80%'],
+            content: '/html/exam/notice.html?examCode='+examCode
+        });
+    });
+}
+
 layui.use(['form','layer'], function(){   
     layui.form.on('submit(newExam)', function(dataForm){
         examName = $('#examName').val();
@@ -186,10 +246,10 @@ layui.use(['form','layer'], function(){
             || parseInt(examScore)!=parseInt(singleScore)+parseInt(multipleScore)
             || parseInt(singles)>parseInt(singleScore)
             || parseInt(multiples)>parseInt(multipleScore)) {
-                layui.use('layer', function () {
-                    layui.layer.alert('<div style="color: #FF0000; font-size:16px;"><div>正整数输入有误，请重新检查数据，使之符合以下条件</div><div>总分=单选题总分+多选题总分</div><div>单选题总分>=单选题数</div><div>多选题数>=多选题数</div></div>', {icon: 2});
-                });
-                return false;
+            layui.use('layer', function () {
+                layui.layer.alert('<div style="color: #FF0000; font-size:16px;"><div>正整数输入有误，请重新检查数据，使之符合以下条件</div><div>总分=单选题总分+多选题总分</div><div>单选题总分>=单选题数</div><div>多选题数>=多选题数</div></div>', {icon: 2});
+            });
+            return false;
         }
 
         $.ajax({
@@ -279,7 +339,58 @@ layui.use(['form','layer'], function(){
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(newExamData),
             success: function(data){
-                
+                if (data.data.state=='ok') {
+                    $("#examForm").html("");
+
+                    itemDiv = $('<div class="layui-form-item">');
+                    inputDiv = $('<div class="layui-input-block">');
+                    inputDiv.append('<input type="text" class="layui-input" disabled="disabled" value="'+data.data.examCode+'">');
+                    itemDiv.append('<label class="layui-form-label">考试码</label>');
+                    itemDiv.append(inputDiv);
+                    $("#examForm").append(itemDiv);
+
+                    itemDiv = $('<div class="layui-form-item">');
+                    inputDiv = $('<div class="layui-input-block">');
+                    inputDiv.append('<input type="text" class="layui-input" disabled="disabled" value="'+data.data.examName+'">');
+                    itemDiv.append('<label class="layui-form-label">小测名称</label>');
+                    itemDiv.append(inputDiv);
+                    $("#examForm").append(itemDiv);
+
+                    itemDiv = $('<div class="layui-form-item">');
+                    inputDiv = $('<div class="layui-input-block">');
+                    inputDiv.append('<input type="text" class="layui-input" disabled="disabled" value="'+data.data.score+'">');
+                    itemDiv.append('<label class="layui-form-label">小测总分</label>');
+                    itemDiv.append(inputDiv);
+                    $("#examForm").append(itemDiv);
+
+                    itemDiv = $('<div class="layui-form-item">');
+                    inputDiv = $('<div class="layui-input-block">');
+                    inputDiv.append('<input type="text" class="layui-input" disabled="disabled" value="'+data.data.time+'分钟">');
+                    itemDiv.append('<label class="layui-form-label">小测时间</label>');
+                    itemDiv.append(inputDiv);
+                    $("#examForm").append(itemDiv);
+
+                    itemDiv = $('<div class="layui-form-item">');
+                    inputDiv = $('<div class="layui-input-block">');
+                    inputDiv.append('<input type="text" class="layui-input" disabled="disabled" value="'+data.data.expTime+'">');
+                    itemDiv.append('<label class="layui-form-label">截止时间</label>');
+                    itemDiv.append(inputDiv);
+                    $("#examForm").append(itemDiv);
+
+                    itemDiv = $('<div class="layui-form-item">');
+                    inputDiv = $('<div class="layui-input-block">');
+                    inputDiv.append('<button class="layui-btn layui-btn-blue" onclick="examNotice(\''+data.data.examCode+'\')">通知班级</button>');
+                    itemDiv.append(inputDiv);
+                    $("#examForm").append(itemDiv);
+
+                    layui.use('layer', function () {
+                        layui.layer.alert('<span style="font-size:16px;">新建成功</span>', {icon: 1});
+                    });
+                } else {
+                    layui.use('layer', function () {
+                        layui.layer.alert('<span style="font-size:16px;">新建失败</span>', {icon: 2});
+                    });
+                }
             },
             error:function(e){
                 console.log(e);

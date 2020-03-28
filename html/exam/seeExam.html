@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"/>
+</head>
+<body>
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-card-header" id="examCode"></div>
+            <hr class="layui-bg-red">
+            <div class="layui-card-body" style="word-wrap:break-word; word-break:normal;">
+                <div id="examName"></div>
+                <div id="score"></div>
+                <div id="time"></div>
+                <div id="pdTime"></div>
+                <div id="expTime"></div>
+            </div>
+        </div>
+        <hr class="layui-bg-red">
+        <div class="layui-card">
+            <div class="layui-card-header" id="singleMsg"></div>
+            <hr class="layui-bg-blue">
+            <div class="layui-card-body" style="word-wrap:break-word; word-break:normal;" id="singleList"></div>
+        </div>
+        <hr class="layui-bg-red">
+        <div class="layui-card">
+            <div class="layui-card-header" id="multipleMsg"></div>
+            <hr class="layui-bg-blue">
+            <div class="layui-card-body" style="word-wrap:break-word; word-break:normal;" id="multipleList"></div>
+        </div>
+    </div>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/layui.all.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script>
+        var examCode = window.location.href.split("=")[1];
+        
+        function makeList(list,type) {
+            score = 0;
+            listType = ['#singleList','#multipleList'];
+            msgType = ['#singleMsg','#multipleMsg'];
+            typeArr = ['单选题','多选题']
+            $.each(list,function(index,value) {
+                score += parseInt(value.score);
+                $(listType[type]).append('<div><font style="color:red;">（第'+(index+1)+'题，'+value.score+'分）</font>'+value.question+'</div>');
+                if (value.imgQuestion!=undefined && value.imgQuestion!=null && value.imgQuestion!=''){
+                    $(listType[type]).append('<div><img src="'+value.imgQuestion+'"/></div>');
+                }
+
+                $(listType[type]).append('<div>A.'+value.optionA+'</div>');
+                if (value.imgA!=undefined && value.imgA!=null && value.imgA!=''){
+                    $(listType[type]).append('<div><img src="'+value.imgA+'"/></div>');
+                }
+
+                $(listType[type]).append('<div>B.'+value.optionB+'</div>');
+                if (value.imgB!=undefined && value.imgB!=null && value.imgB!=''){
+                    $(listType[type]).append('<div><img src="'+value.imgB+'"/></div>');
+                }
+
+                $(listType[type]).append('<div>C.'+value.optionC+'</div>');
+                if (value.imgC!=undefined && value.imgC!=null && value.imgC!=''){
+                    $(listType[type]).append('<div><img src="'+value.imgC+'"/></div>');
+                }
+
+                $(listType[type]).append('<div>D.'+value.optionD+'</div>');
+                if (value.imgD!=undefined && value.imgD!=null && value.imgD!=''){
+                    $(listType[type]).append('<div><img src="'+value.imgD+'"/></div>');
+                }
+
+                $(listType[type]).append('<div><font style="color:red;">答案：</font>'+value.answer+'</div>');
+
+                $(listType[type]).append('<div><font style="color:red;">答案解析：</font>'+value.analysis+'</div>');
+                if (value.imgAnalysis!=undefined && value.imgAnalysis!=null && value.imgAnalysis!=''){
+                    $(listType[type]).append('<div><img src="'+value.imgAnalysis+'"/></div>');
+                }
+
+                $(listType[type]).append('<hr class="layui-bg-blue">');
+            });
+            $(msgType[type]).html(typeArr[type]+'（共'+list.length+'题，共'+score+'分）');
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/back/exam/getExamInfo?examCode="+examCode,
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            success: function(data){
+                $('#examCode').html('考试码：'+data.data.examCode);
+                $('#examName').html('小测名称：'+data.data.examName);
+                $('#score').html('小测总分：'+data.data.score);
+                $('#time').html('小测时间：'+data.data.time+'分钟');
+                $('#pdTime').html('新建时间：'+data.data.pdTime);
+                $('#expTime').html('截止时间：'+data.data.expTime);
+
+                makeList(data.data.singleList,0);
+                makeList(data.data.multipleList,1);
+            },
+            error:function(e){
+                console.log(e);
+            }
+        });
+    </script>
+</body>
+</html>
