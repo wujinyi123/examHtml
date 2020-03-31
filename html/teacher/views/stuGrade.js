@@ -104,6 +104,7 @@ layui.use(['form','layer'], function () {
                 fieldset.append(boxDiv);
                 $('#clazzResult').append(fieldset);
 
+                $('#clazzResult').append('<a class="layui-btn layui-btn-blue" href="/back/exam/exportClazzGrade?examCode='+examCode+'&clazzNumber='+clazz+'">导出Excel</a>');
                 
                 layui.use('element', function () {
                     var element = layui.element;
@@ -139,7 +140,7 @@ layui.use(['form','layer'], function () {
                 cols: [[
                     {field: 'stuNumber', title: '学号', sort: true},
                     {field: 'stuName', title: '姓名', sort: true},
-                    {field: 'stuScore', width:100, title: '得分', sort: true},
+                    {field: 'stuScore', width:100, title: '成绩', sort: true},
                     {field: 'useTime', width:120, title: '用时', sort: true},
                     {field: 'submitTime', width:180, title: '提交时间', sort: true},
                     {

@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="layui-row">
-        <div class="layui-card">
+        <div class="layui-card" id="header">
             <div class="layui-card-header" id="examCode"></div>
             <hr class="layui-bg-red">
             <div class="layui-card-body" style="word-wrap:break-word; word-break:normal;">
@@ -17,6 +17,7 @@
                 <div id="pdTime"></div>
                 <div id="expTime"></div>
             </div>
+
         </div>
         <hr class="layui-bg-red">
         <div class="layui-card">
@@ -93,6 +94,8 @@
                 $('#time').html('小测时间：'+data.data.time+'分钟');
                 $('#pdTime').html('新建时间：'+data.data.pdTime);
                 $('#expTime').html('截止时间：'+data.data.expTime);
+
+                $('#header').append('<a class="layui-btn layui-btn-blue" href="/back/exam/exportClazzGrade?examCode='+examCode+'&clazzNumber=all">导出所有参加小测的学生成绩</a>')
 
                 makeList(data.data.singleList,0);
                 makeList(data.data.multipleList,1);

@@ -70,3 +70,25 @@ $("#exit").click(function(){
     $.cookie('student'+configData.projectName, null);
     window.location.href='../../login.html';
 });
+
+function reLogin() {
+    $.ajax({
+        type: "POST",
+        url: "/back/user/reLogin?userType=student",
+        dataType: "json",
+        success: function(data){
+            if (data.data.state=='ok') {
+                $.cookie(data.data.userType+configData.projectName ,data.data.msg);
+            }
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
+}
+
+reLogin();
+
+window.setInterval(function() {
+    reLogin();
+},1500000);

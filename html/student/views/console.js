@@ -1,41 +1,18 @@
 function showTable(data) {
-    $('#thisTbodys').children().remove();
-    newTr = $('<tr>');
-    td1 = $('<td>');
-    td1.html(data.examCode);
-    newTr.append(td1);
-    
-    td2 = $('<td>');
-    td2.html(data.examName);
-    newTr.append(td2);
-    
-    td3 = $('<td>');	
-    td3.html(data.score);
-    newTr.append(td3);
-    
-    td4 = $('<td>');
-    td4.html(data.teacherName);
-    newTr.append(td4);
-
-    td5 = $('<td>');
-    td5.html(data.time);
-    newTr.append(td5);
-
-    td6 = $('<td>');
-    td6.html(data.pdDate);
-    newTr.append(td6);
-
-    td7 = $('<td>');
-    td7.html(data.expDate);
-    newTr.append(td7);
-
+    $('#thisTbodys').html('');
     remark = ['<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>',
-        '<span>你已参加过该考试，成绩：<span style="color:red;">'+data.myScore+'分</span></span><a class="layui-btn layui-btn-mini links_edit" href="#" onclick="seeExamResult(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>详情</a>',
-        '<span style="color:red;">该考试已经超过截止时间，您错过了考试</span>'];
+    '<span>你已参加过该考试，成绩：<span style="color:red;">'+data.myScore+'分</span></span><a class="layui-btn layui-btn-mini links_edit" href="#" onclick="seeExamResult(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>详情</a>',
+    '<span style="color:red;">该考试已经超过截止时间，您错过了考试</span>'];
+    newTr = $('<tr>');
 
-    td8 = $('<td>');
-    td8.html(remark[data.remark]);
-    newTr.append(td8);
+    newTr.append('<td>'+data.examCode+'</td>');
+    newTr.append('<td>'+data.examName+'</td>');
+    newTr.append('<td>'+data.score+'</td>');
+    newTr.append('<td>'+data.teacherName+'</td>');
+    newTr.append('<td>'+data.time+'</td>');
+    newTr.append('<td>'+data.pdDate+'</td>');
+    newTr.append('<td>'+data.expDate+'</td>');
+    newTr.append('<td>'+remark[data.remark]+'</td>');
 
     $('#thisTbodys').append(newTr);
     $('#thisTable').css('display','block');
@@ -200,33 +177,16 @@ function listNewScore() {
         contentType: "application/json;charset=utf-8",
         data: JSON.stringify({}),
         success: function(data){
-            $('#newScoreTbodys').children().remove();
+            $('#newScoreTbodys').html('');
             $.each(data.data, function (index, value) {
-                newTr = $('<tr>');
+                newTr = $('<tr onclick="seeExamResult(\''+value.examCode+'\')">');
 
-                td1 = $('<td>');
-                td1.html(value.examCode);
-                newTr.append(td1);
-                
-                td2 = $('<td>');
-                td2.html(value.examName);
-                newTr.append(td2);
-                
-                td3 = $('<td>');	
-                td3.html(value.score);
-                newTr.append(td3);
-                
-                td4 = $('<td>');
-                td4.html(value.teacherName);
-                newTr.append(td4);
-
-                td5 = $('<td>');
-                td5.html(value.time);
-                newTr.append(td5);
-
-                td6 = $('<td>');
-                td6.html(value.myScore);
-                newTr.append(td6);
+                newTr.append('<td>'+value.examCode+'</td>');
+                newTr.append('<td>'+value.examName+'</td>');
+                newTr.append('<td>'+value.score+'</td>');
+                newTr.append('<td>'+value.teacherName+'</td>');
+                newTr.append('<td>'+value.time+'</td>');
+                newTr.append('<td>'+value.myScore+'</td>');
 
                 $('#newScoreTbodys').append(newTr);
             });

@@ -86,10 +86,9 @@ function pageExam() {
                 {field: 'examName', title: '名称', sort: true},
                 {field: 'score', width:80, title: '总分', sort: true},
                 {field: 'time', width:100, title: '总时间', sort: true},
-                {field: 'pdDate', width:160, title: '开始时间', sort: true},
                 {field: 'expDate', width:160, title: '结束时间', sort: true},
                 {
-                    field: 'id', width:240, title: '操作', sort: true, templet: function (data) {
+                    field: 'id', width:280, title: '操作', sort: true, templet: function (data) {
                         return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="seeExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>查看</a>'
                         +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="deleteExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>删除</a>'
                         +'<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="examNotice(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>通知</a>';
