@@ -93,6 +93,7 @@ layui.use('upload', function(){
 
                 $('#errorTbodys').append(newTr);
             });
+            $('#errorExcel').attr("href","/back/manage/insertError?type=teacher&uuid="+res.data.uuid);
             $('#insertError').css('display','block');
             window.location.hash = "#insertError";
             layui.use('layer', function () {
@@ -105,18 +106,3 @@ layui.use('upload', function(){
       }
     });
   });
-
-  function exportError() {
-    $.ajax({
-        type: "POST",
-        url: "/back/manage/insertError",
-        contentType: "application/json;charset=utf-8",
-        data: JSON.stringify(errorTeacher),
-        success: function(data){
-
-        },
-        error:function(e){
-            console.log(e);
-        }
-    });
-  }
