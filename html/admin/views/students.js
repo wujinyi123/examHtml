@@ -9,8 +9,8 @@ function pageStudent() {
             url: '/back/manage/pageStudent?sex='+sex+'&term='+term,
             page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                limits: [5, 10, 15],
-                limit: 5,
+                limits: [10, 15, 20],
+                limit: 10,
                 curr: 1,
                 groups: 5, //只显示 1 个连续页码
                 first: '首页',
