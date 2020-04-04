@@ -36,7 +36,7 @@ function stuInfo(stuNumber) {
             // shade: false,
             //maxmin: true, //开启最大化最小化按钮
             area: ['90%', '90%'],
-            content: '/html/teacher/views/stuInfo.html?stuNumber='+stuNumber
+            content: '/html/common/stuInfo.html?stuNumber='+stuNumber
         });
     });
 }

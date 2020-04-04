@@ -1,12 +1,53 @@
+$.ajax({
+    type: "POST",
+    url: "/back/mb/listCollege",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    success: function(data){
+        layui.use('form', function(){
+            $.each(data.data,function(index,value){
+                $('#collegeCode').append('<option value="'+value.code+'">'+value.name+'</option>');
+            });
+            layui.form.render();
+        });
+    },
+    error:function(e){
+        console.log(e);
+    }
+});
+
+layui.use(['form','layer'], function () {
+    layui.form.on('submit(formSubmit)', function(dataForm){
+        pageTeacher();
+        return false;
+    });
+});
+
+function seeInfo(number) {
+    layui = window.parent.layui;
+    layui.use('layer', function () {
+        layui.layer.open({
+            type: 2,
+            title: '学生信息',
+            // shadeClose: false,
+            // shade: false,
+            //maxmin: true, //开启最大化最小化按钮
+            area: ['90%', '90%'],
+            content: '/html/common/teacherInfo.html?number='+number
+        });
+    });
+}
+
 function pageTeacher() {
-    sex = $('select[name="sex"]').val();
-    term = $('input[name="term"]').val();
+    collegeCode = $('#collegeCode').val();
+    sex = $('#sex').val();
+    term = encodeURIComponent($('#term').val());
     $('#teachers').html("");
     layui.use('table', function () {
         var table = layui.table;
         table.render({
             elem: '#teachers',
-            url: '/back/manage/pageTeacher?sex='+sex+'&term='+term,
+            url: '/back/manage/pageTeacher?collegeCode='+collegeCode+'&sex='+sex+'&term='+term,
             page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                 limits: [5, 10, 15],
@@ -29,13 +70,19 @@ function pageTeacher() {
                 {field: 'college', title: '学院', sort: true},
                 {field: 'collegeCode', title: '学院代码', sort: true},
                 {field: 'tel', title: '电话', sort: true},
-                {field: 'email', title: '邮箱', sort: true}
+                {field: 'email', title: '邮箱', sort: true},
+                {
+                    field: 'action', title: '操作', sort: true, templet:function(data) {
+                        return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="seeInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>查看</a>'
+                            +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="updateInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>修改</a>'
+                            +'<a class="layui-btn layui-btn-red layui-btn-mini links_edit" href="#" onclick="deleteInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>删除</a>';
+                    }
+                }
             ]]
         });
     });
 }
 
-var errorTeacher = {};
 layui.use('upload', function(){
     var upload = layui.upload;
      
@@ -59,7 +106,6 @@ layui.use('upload', function(){
         } else {
             $('#errorTbodys').children().remove();
             $('#errorSpan').html("以下是导入出错的信息，共"+res.data.fail+"条  ");
-            errorTeacher = {type:"teacher",dataList:res.data.dataList};
             $.each(res.data.dataList, function (index, value) {
                 newTr = $('<tr>');
 

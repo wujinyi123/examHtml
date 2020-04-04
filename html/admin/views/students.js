@@ -1,12 +1,120 @@
+$.ajax({
+    type: "POST",
+    url: "/back/mb/collegeAndYear",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    success: function(data){
+        layui.use('form', function(){
+            $.each(data.data.college,function(index,value){
+                $('#collegeCode').append('<option value="'+value.code+'">'+value.name+'</option>');
+            });
+            $.each(data.data.year,function(index,value){
+                $('#year').append('<option value="'+value.code+'">'+value.name+'</option>');
+            });
+            layui.form.render();
+        });
+    },
+    error:function(e){
+        console.log(e);
+    }
+});
+
+layui.use(['form','layer'], function () {
+    layui.form.on("select(collegeCode)",function () {
+        $('#clazz').html("");
+        $('#clazz').append('<option value="0">全部</option>');
+        var collegeCode = $("#collegeCode").val();
+        var year = $("#year").val();
+        if (collegeCode=='0' && year=='0') {
+            layui.use('form', function(){
+                layui.form.render('select');
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/back/mb/listClazzByCY",
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify({collegeCode:collegeCode,year:year}),
+                success: function(data){
+                    layui.use('form', function(){
+                        $.each(data.data,function(index,value){
+                            $('#clazz').append('<option value="'+value.code+'">'+value.name+'</option>');
+                        });
+                        layui.form.render('select');
+                    });
+                },
+                error:function(e){
+                    console.log(e);
+                }
+            });
+        }
+    });
+
+    layui.form.on("select(year)",function () {
+        $('#clazz').html("");
+        $('#clazz').append('<option value="0">全部</option>');
+        var collegeCode = $("#collegeCode").val();
+        var year = $("#year").val();
+        if (collegeCode=='0' && year=='0') {
+            layui.use('form', function(){
+                layui.form.render('select');
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/back/mb/listClazzByCY",
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify({collegeCode:collegeCode,year:year}),
+                success: function(data){
+                    layui.use('form', function(){
+                        $.each(data.data,function(index,value){
+                            $('#clazz').append('<option value="'+value.code+'">'+value.name+'</option>');
+                        });
+                        layui.form.render('select');
+                    });
+                },
+                error:function(e){
+                    console.log(e);
+                }
+            });
+        }
+    });
+
+    layui.form.on('submit(formSubmit)', function(dataForm){
+        pageStudent();
+        return false;
+    });
+});
+
+function seeInfo(stuNumber) {
+    layui = window.parent.layui;
+    layui.use('layer', function () {
+        layui.layer.open({
+            type: 2,
+            title: '学生信息',
+            // shadeClose: false,
+            // shade: false,
+            //maxmin: true, //开启最大化最小化按钮
+            area: ['90%', '90%'],
+            content: '/html/common/stuInfo.html?stuNumber='+stuNumber
+        });
+    });
+}
+
 function pageStudent() {
-    sex = $('select[name="sex"]').val();
-    term = $('input[name="term"]').val();
+    collegeCode = $('#collegeCode').val();
+    year = $('#year').val();
+    clazz = $('#clazz').val();
+    sex = $('#sex').val();
+    term = encodeURIComponent($('#term').val());
     $('#students').html("");
     layui.use('table', function () {
         var table = layui.table;
         table.render({
             elem: '#students',
-            url: '/back/manage/pageStudent?sex='+sex+'&term='+term,
+            url: '/back/manage/pageStudent?collegeCode='+collegeCode+'&year='+year+'&clazz='+clazz+'&sex='+sex+'&term='+term,
             page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                 limits: [10, 15, 20],
@@ -23,21 +131,23 @@ function pageStudent() {
                 }
             },
             cols: [[
-                {field: 'number', title: '学号', sort: true},
-                {field: 'name', title: '姓名', sort: true},
-                {field: 'sex', title: '性别', sort: true},
+                {field: 'number', width:120, title: '学号', sort: true},
+                {field: 'name', width:80, title: '姓名', sort: true},
+                {field: 'sex', width:80, title: '性别', sort: true},
                 {field: 'college', title: '学院', sort: true},
-                {field: 'collegeCode', title: '学院代码', sort: true},
-                {field: 'clazz', title: '班级号', sort: true},
-                {field: 'clazzName', title: '专业', sort: true},
-                {field: 'tel', title: '电话', sort: true},
-                {field: 'email', title: '邮箱', sort: true}
+                {field: 'clazz',width:100, title: '班级号', sort: true},
+                {
+                    field: 'action', title: '操作', sort: true, templet:function(data) {
+                        return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="seeInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>查看</a>'
+                            +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="updateInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>修改</a>'
+                            +'<a class="layui-btn layui-btn-red layui-btn-mini links_edit" href="#" onclick="deleteInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>删除</a>';
+                    }
+                }
             ]]
         });
     });
 }
 
-var errorStudent = {};
 layui.use('upload', function(){
     var upload = layui.upload;
      
@@ -61,7 +171,6 @@ layui.use('upload', function(){
         } else {
             $('#errorTbodys').children().remove();
             $('#errorSpan').html("以下是导入出错的信息，共"+res.data.fail+"条  ");
-            errorStudent = {type:"student",dataList:res.data.dataList};
             $.each(res.data.dataList, function (index, value) {
                 newTr = $('<tr>');
 

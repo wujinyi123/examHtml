@@ -24,26 +24,41 @@
         <div class="layui-row">
             <div class="layui-card">
                 <div class="layui-card-body">
-                    <div class="form-box">
-                        <div class="layui-form layui-form-item">
+                    <form class="layui-form">
+                        <div class="layui-form-item">
                             <div class="layui-inline">
-                                <div class="layui-form-mid">性别:</div>
-                                <div class="layui-input-inline" style="width: 100px;">
-                                    <select name="sex">
-                                      <option value="0">不限</option>
-                                      <option value="男">男</option>
-                                      <option value="女">女</option>
-                                    </select>     
+                                <label class="layui-form-label">学院</label>
+                                <div class="layui-input-inline">
+                                <select name="collegeCode" id="collegeCode" lay-filter="collegeCode" lay-verify="required" lay-search="">
+                                    <option value="0">全部</option>
+                                </select>
                                 </div>
-                                <div class="layui-form-mid">模糊条件:</div>
-                                <div class="layui-input-inline" style="width: 100px;">
-                                  <input type="text" id="term" name="term" autocomplete="off" class="layui-input" placeholder="学院/学院代码/教师号/姓名">
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">性别</label>
+                                <div class="layui-input-inline">
+                                  <select name="sex" id="sex" lay-filter="sex" lay-verify="required" lay-search="">
+                                    <option value="0">不限</option>
+                                    <option value="M">男</option>
+                                    <option value="G">女</option>
+                                  </select>
                                 </div>
-                                <button class="layui-btn layui-btn-blue" onclick="pageTeacher()">查询</button>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">教师号/姓名</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="term" name="term" autocomplete="off" class="layui-input" placeholder="模糊条件">
+                                </div>
                             </div>
                         </div>
-                        <table id="teachers"></table>
-                    </div>
+        
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn layui-btn-blue" lay-submit lay-filter="formSubmit">查询</button>
+                            </div>
+                        </div>
+                    </form>  
+                    <table id="teacher"></table>
                 </div>
                 <div class="layui-card-body">
                     <button class="layui-btn layui-btn-blue" id="insert"><i class="layui-icon">&#xe654;</i>新增/导入</button>
