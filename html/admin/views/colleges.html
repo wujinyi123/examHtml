@@ -23,40 +23,72 @@
         </div>
         <div class="layui-row">
             <div class="layui-card">
+                <div class="layui-card-header" id="header"></div>
                 <div class="layui-card-body">
-                    <div class="form-box">
-                        <div class="layui-form layui-form-item">
-                            <div class="layui-inline">
-                                <div class="layui-form-mid">模糊条件:</div>
-                                <div class="layui-input-inline" style="width: 100px;">
-                                  <input type="text" id="term" name="term" autocomplete="off" class="layui-input" placeholder="学院/学院代码">
-                                </div>
-                                <button class="layui-btn layui-btn-blue" onclick="pageStudent()">查询</button>
-                            </div>
-                        </div>
-                        <table id="students"></table>
-                    </div>
-                </div>
-                <div class="layui-card-body">
-                    <button class="layui-btn layui-btn-blue" id="insert"><i class="layui-icon">&#xe654;</i>新增/导入</button>
-                    <div id="insertError" style="display: none; ">
-                        <div style="height: 30px;"></div>
-                        <span style="color: red;" id="errorSpan"></span>
-                        <button class="layui-btn layui-btn-blue" onclick="exportError()">导出Excel</button>
-                        <table class="layui-table" id="errorTable">
-                            <thead>
-                                <tr><th>学号</th><th>姓名</th><th>性别</th><th>电话</th><th>邮箱</th><th>学院代码</th><th>班级号</th><th>错误信息</th></tr> 
-                            </thead>
-                            <tbody id="errorTbodys"></tbody>
-                        </table>
-                    </div>
+                    <table id="colleges"></table>
                 </div>
             </div>
         </div>
     </div>
     <script src="../assets/layui.all.js"></script>
     <script src="/js/jquery-3.3.1.min.js"></script>
-    <script src="students.js"></script>
+    <script>
+        $.ajax({
+            type: "POST",
+            url: "/back/manage/getSchoolInfo",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            success: function(data){
+                $('#header').html('全校共有'+data.data.colleges+'个学院，'+data.data.clazzs+'个班级。'
+                +'学生共有'+(parseInt(data.data.mstudents)+parseInt(data.data.gstudents))+'人，其中男生'+data.data.mstudents+'人，女生'+data.data.gstudents+'人。'
+                +'教师共有'+(parseInt(data.data.mteachers)+parseInt(data.data.gteachers))+'人，其中男教师'+data.data.mteachers+'人，女教师'+data.data.gteachers+'人。');
+            },
+            error:function(e){
+                console.log(e);
+            }
+        });
 
+        layui.use('table', function () {
+            var table = layui.table;
+            table.render({
+                elem: '#colleges',
+                url: '/back/manage/pageCollege',
+                page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    limits: [10, 15, 20],
+                    limit: 10,
+                    curr: 1,
+                    groups: 5, //只显示 1 个连续页码
+                    first: '首页',
+                    last: '尾页',
+                    skin: 'row',
+                    page: true,
+                    even: true,
+                    done: function (res) {
+                        userPage.data = res.data;
+                    }
+                },
+                cols: [[
+                    {field: 'code', width:110,title: '学院代码', sort: true},
+                    {field: 'name', title: '学院名称', sort: true},
+                    {field: 'clazzs',width:90, title: '班级数', sort: true},
+                    {
+                        field: 'students',width:90, title: '学生数', sort: true, templet:function(data) {
+                            return parseInt(data.mstudents)+parseInt(data.gstudents);
+                        }
+                    },
+                    {field: 'mstudents',width:110, title: '男生人数', sort: true},
+                    {field: 'gstudents',width:110, title: '女生人数', sort: true},
+                    {
+                        field: 'teachers',width:90, title: '教师数', sort: true, templet:function(data) {
+                            return parseInt(data.mteachers)+parseInt(data.gteachers);
+                        }
+                    },
+                    {field: 'mteachers',width:110, title: '男教师数', sort: true},
+                    {field: 'gteachers',width:110, title: '女教师数', sort: true}
+                ]]
+            });
+        });
+    </script>
 </body>
 </html>

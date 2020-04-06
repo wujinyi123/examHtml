@@ -28,7 +28,7 @@ function seeInfo(number) {
     layui.use('layer', function () {
         layui.layer.open({
             type: 2,
-            title: '学生信息',
+            title: '教师信息',
             // shadeClose: false,
             // shade: false,
             //maxmin: true, //开启最大化最小化按钮

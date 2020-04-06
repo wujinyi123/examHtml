@@ -1,3 +1,28 @@
+function changeClazz() {
+    $('#clazz').html("");
+    $('#clazz').append('<option value="0">全部</option>');
+    var collegeCode = $("#collegeCode").val();
+    var year = $("#year").val();
+    $.ajax({
+        type: "POST",
+        url: "/back/mb/listClazzByCY",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({collegeCode:collegeCode,year:year}),
+        success: function(data){
+            layui.use('form', function(){
+                $.each(data.data,function(index,value){
+                    $('#clazz').append('<option value="'+value.code+'">'+value.name+'</option>');
+                });
+                layui.form.render('select');
+            });
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
+}
+
 $.ajax({
     type: "POST",
     url: "/back/mb/collegeAndYear",
@@ -13,6 +38,7 @@ $.ajax({
             });
             layui.form.render();
         });
+        changeClazz();
     },
     error:function(e){
         console.log(e);
@@ -21,65 +47,11 @@ $.ajax({
 
 layui.use(['form','layer'], function () {
     layui.form.on("select(collegeCode)",function () {
-        $('#clazz').html("");
-        $('#clazz').append('<option value="0">全部</option>');
-        var collegeCode = $("#collegeCode").val();
-        var year = $("#year").val();
-        if (collegeCode=='0' && year=='0') {
-            layui.use('form', function(){
-                layui.form.render('select');
-            });
-        } else {
-            $.ajax({
-                type: "POST",
-                url: "/back/mb/listClazzByCY",
-                dataType: "json",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify({collegeCode:collegeCode,year:year}),
-                success: function(data){
-                    layui.use('form', function(){
-                        $.each(data.data,function(index,value){
-                            $('#clazz').append('<option value="'+value.code+'">'+value.name+'</option>');
-                        });
-                        layui.form.render('select');
-                    });
-                },
-                error:function(e){
-                    console.log(e);
-                }
-            });
-        }
+        changeClazz();
     });
 
     layui.form.on("select(year)",function () {
-        $('#clazz').html("");
-        $('#clazz').append('<option value="0">全部</option>');
-        var collegeCode = $("#collegeCode").val();
-        var year = $("#year").val();
-        if (collegeCode=='0' && year=='0') {
-            layui.use('form', function(){
-                layui.form.render('select');
-            });
-        } else {
-            $.ajax({
-                type: "POST",
-                url: "/back/mb/listClazzByCY",
-                dataType: "json",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify({collegeCode:collegeCode,year:year}),
-                success: function(data){
-                    layui.use('form', function(){
-                        $.each(data.data,function(index,value){
-                            $('#clazz').append('<option value="'+value.code+'">'+value.name+'</option>');
-                        });
-                        layui.form.render('select');
-                    });
-                },
-                error:function(e){
-                    console.log(e);
-                }
-            });
-        }
+        changeClazz();
     });
 
     layui.form.on('submit(formSubmit)', function(dataForm){

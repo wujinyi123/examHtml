@@ -11,9 +11,13 @@
     <div class="layui-content">
         <div class="layui-row">
             <div class="layui-card">
-                <div class="layui-card-header">出题</div>
-                <div id="imgDiv"></div>
-                <form class="layui-form layui-card-body" method="POST" id="examForm">
+              <div class="layui-card-header">出题</div>
+              <div class="layui-card-body">
+                <div id="btn">
+                  <a class="layui-btn layui-btn-blue" href="/file/选择题导入模板.xlsx">下载选择题导入模板</a>
+                  <button class="layui-btn layui-btn-blue" id="insert"><i class="layui-icon">&#xe654;</i>导入选择题</button>
+                </div>
+                <form class="layui-form" method="POST" id="examForm">
                   <div class="layui-form-item">
                     <label class="layui-form-label">小测名称</label>
                     <div class="layui-input-block">
@@ -72,6 +76,7 @@
                     </div>
                   </div>
                 </form>  
+              </div>
             </div>
         </div>
     </div>

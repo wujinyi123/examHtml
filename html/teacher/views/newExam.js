@@ -36,9 +36,9 @@ function imgUpload(imgName) {
     arr = imgName.split("_");
     titleName = '';
     if (arr[0]=='single') {
-        titleName = '单选题-第' + (parseInt(arr[1]+1)) + '题-';
+        titleName = '单选题-第' + (parseInt(arr[1])) + '题-';
     } else {
-        titleName = '多选题-第' + (parseInt(arr[1]+1)) + '题-';
+        titleName = '多选题-第' + (parseInt(arr[1])) + '题-';
     }
 
     if (arr[2]=='question') {
@@ -117,7 +117,7 @@ function enterQuestions(name,type,num,score) {
             thisLabel = $('<label class="layui-form-label">');
             thisLabel.html(value);
 
-            thisIdName = type+'_'+i+'_'+idNames[index];
+            thisIdName = type+'_'+(i+1)+'_'+idNames[index];
             thisInputDiv = $('<div class="layui-input-block">');
             if (index==5) {
                 if (type=='single') {
@@ -187,7 +187,7 @@ function getList(examCode,typeCode,type,score,num) {
         }
 
         answer = '';
-        $('input[name="'+type+'_'+i+'_ans'+'"]:checked').each(function(){   
+        $('input[name="'+type+'_'+(i+1)+'_ans'+'"]:checked').each(function(){   
             answer = answer + $(this).val();  
         });
         if (answer=='' || (type=='multiple' && answer.length==1)) {
@@ -195,41 +195,42 @@ function getList(examCode,typeCode,type,score,num) {
         }
 
         data = {
+            id:(i+1),
             examCode:examCode,
             type:typeCode,
             score:questionScore,
-            question:$('#'+type+'_'+i+'_question').val(),
-            optionA:$('#'+type+'_'+i+'_A').val(),
-            optionB:$('#'+type+'_'+i+'_B').val(),
-            optionC:$('#'+type+'_'+i+'_C').val(),
-            optionD:$('#'+type+'_'+i+'_D').val(),
+            question:$('#'+type+'_'+(i+1)+'_question').val(),
+            optionA:$('#'+type+'_'+(i+1)+'_A').val(),
+            optionB:$('#'+type+'_'+(i+1)+'_B').val(),
+            optionC:$('#'+type+'_'+(i+1)+'_C').val(),
+            optionD:$('#'+type+'_'+(i+1)+'_D').val(),
             answer:answer,
-            analysis:$('#'+type+'_'+i+'_analysis').val(),
-            imgQuestion:$('#'+type+'_'+i+'_question_img').html(),
-            imgA:$('#'+type+'_'+i+'_A_img').html(),
-            imgB:$('#'+type+'_'+i+'_B_img').html(),
-            imgC:$('#'+type+'_'+i+'_C_img').html(),
-            imgD:$('#'+type+'_'+i+'_D_img').html(),
-            imgAnalysis:$('#'+type+'_'+i+'_analysis_img').html()
+            analysis:$('#'+type+'_'+(i+1)+'_analysis').val(),
+            imgQuestion:$('#'+type+'_'+(i+1)+'_question_img').html(),
+            imgA:$('#'+type+'_'+(i+1)+'_A_img').html(),
+            imgB:$('#'+type+'_'+(i+1)+'_B_img').html(),
+            imgC:$('#'+type+'_'+(i+1)+'_C_img').html(),
+            imgD:$('#'+type+'_'+(i+1)+'_D_img').html(),
+            imgAnalysis:$('#'+type+'_'+(i+1)+'_analysis_img').html()
         };
         dataList.push(data);
     }
     return dataList;
 }
 
-function examNotice(examCode) {
-    layui.use('layer', function () {
-        layui.layer.open({
-            type: 2,
-            title: '通知班级',
-            // shadeClose: false,
-            // shade: false,
-            //maxmin: true, //开启最大化最小化按钮
-            area: ['80%', '80%'],
-            content: '/html/exam/notice.html?examCode='+examCode
-        });
-    });
-}
+// function examNotice(examCode) {
+//     layui.use('layer', function () {
+//         layui.layer.open({
+//             type: 2,
+//             title: '通知班级',
+//             // shadeClose: false,
+//             // shade: false,
+//             //maxmin: true, //开启最大化最小化按钮
+//             area: ['80%', '80%'],
+//             content: '/html/exam/notice.html?examCode='+examCode
+//         });
+//     });
+// }
 
 layui.use(['form','layer'], function(){   
     layui.form.on('submit(newExam)', function(dataForm){
@@ -259,6 +260,7 @@ layui.use(['form','layer'], function(){
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify({}),
             success: function(data){
+
                 thisNewExam = {
                     examCode:data.data.code,
                     examName:examName,
@@ -272,7 +274,6 @@ layui.use(['form','layer'], function(){
                     multipleScore:multipleScore
                 };
                 $("#examForm").html("");
-
                 layui.use('form', function(){
                     var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
                     enterQuestions("单选题","single",thisNewExam.singles,thisNewExam.singleScore);
@@ -377,11 +378,11 @@ layui.use(['form','layer'], function(){
                     itemDiv.append(inputDiv);
                     $("#examForm").append(itemDiv);
 
-                    itemDiv = $('<div class="layui-form-item">');
-                    inputDiv = $('<div class="layui-input-block">');
-                    inputDiv.append('<button class="layui-btn layui-btn-blue" onclick="examNotice(\''+data.data.examCode+'\')">通知班级</button>');
-                    itemDiv.append(inputDiv);
-                    $("#examForm").append(itemDiv);
+                    // itemDiv = $('<div class="layui-form-item">');
+                    // inputDiv = $('<div class="layui-input-block">');
+                    // inputDiv.append('<button class="layui-btn layui-btn-blue" onclick="examNotice(\''+data.data.examCode+'\')">通知班级</button>');
+                    // itemDiv.append(inputDiv);
+                    // $("#examForm").append(itemDiv);
 
                     layui.use('layer', function () {
                         layui.layer.alert('<span style="font-size:16px;">新建成功</span>', {icon: 1});
@@ -399,3 +400,21 @@ layui.use(['form','layer'], function(){
         return false;
     });
 });
+
+layui.use('upload', function(){
+    var upload = layui.upload;
+     
+    //执行实例
+    var uploadInst = upload.render({
+      elem: '#insert' //绑定元素
+      ,url: '/back/exam/importExam?singles='+thisNewExam.singles+'&multiples='+thisNewExam.multiples //上传接口
+      ,accept: 'file'
+      ,done: function(res){
+        //上传完毕回调
+        console.log(res);
+      }
+      ,error: function(){
+        //请求异常回调
+      }
+    });
+  });
