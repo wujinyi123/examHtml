@@ -64,13 +64,10 @@ function pageTeacher() {
                 }
             },
             cols: [[
-                {field: 'number', title: '教师号', sort: true},
-                {field: 'name', title: '姓名', sort: true},
-                {field: 'sex', title: '性别', sort: true},
+                {field: 'number',width:120, title: '教师号', sort: true},
+                {field: 'name',width:120, title: '姓名', sort: true},
+                {field: 'sex',width:80, title: '性别', sort: true},
                 {field: 'college', title: '学院', sort: true},
-                {field: 'collegeCode', title: '学院代码', sort: true},
-                {field: 'tel', title: '电话', sort: true},
-                {field: 'email', title: '邮箱', sort: true},
                 {
                     field: 'action', title: '操作', sort: true, templet:function(data) {
                         return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="seeInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>查看</a>'

@@ -75,6 +75,21 @@ function seeInfo(stuNumber) {
     });
 }
 
+function updateInfo(stuNumber) {
+    layui = window.parent.layui;
+    layui.use('layer', function () {
+        layui.layer.open({
+            type: 2,
+            title: '修改学生信息',
+            // shadeClose: false,
+            // shade: false,
+            //maxmin: true, //开启最大化最小化按钮
+            area: ['90%', '90%'],
+            content: '/html/common/stuUpdate.html?stuNumber='+stuNumber
+        });
+    });
+}
+
 function pageStudent() {
     collegeCode = $('#collegeCode').val();
     year = $('#year').val();
