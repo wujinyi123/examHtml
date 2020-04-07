@@ -48,11 +48,6 @@ function imgUpload(imgName) {
     } else {
         titleName = titleName + arr[2] + '选项';
     }
-    layui.use(['form','layer'], function(){   
-        layui.form.on('submit(newExam)', function(dataForm){
-            return false;
-        });
-    });
     layui.use('layer', function () {
         layui.layer.open({
             type: 2,
@@ -64,7 +59,7 @@ function imgUpload(imgName) {
             content: '/html/exam/img.html?examCode='+$('#examCode').val()+'&imgName=' + imgName + '&imgsrc=' + $('#'+imgName+'_img').text()
         });
     });
-    
+    window.location.hash = "#"+imgName;
 }
 
 function deleteImg(imgId) {
@@ -133,7 +128,7 @@ function enterQuestions(name,type,num,score) {
                 }
             } else {
                 thisInputDiv.append($('<input type="text" id="'+thisIdName+'" name="'+thisIdName+'" required lay-verify="required" placeholder="请输入内容" autocomplete="off" class="layui-input">'));
-                btn = $('<button class="layui-btn layui-btn-blue">上传/查看图片</button>');
+                btn = $('<a class="layui-btn layui-btn-blue" href="#">上传/查看图片</a>');
                 btn.attr('onclick', 'imgUpload("'+thisIdName+'")');
                 thisInputDiv.append(btn);
                 thisInputDiv.append('<button type="button" onclick="deleteImg(\''+thisIdName+'_img'+'\')" class="layui-btn layui-btn-danger"><i class="layui-icon"></i></button>');
@@ -281,6 +276,46 @@ layui.use(['form','layer'], function(){
                     theFormEnd(thisNewExam);
                     form.render();
                 });
+
+                layui.use('upload', function(){
+                    var upload = layui.upload;
+                    //执行实例
+                    var uploadInst = upload.render({
+                      elem: '#insert' //绑定元素
+                      ,url: '/back/exam/importExam?singles='+singles+'&multiples='+multiples //上传接口
+                      ,accept: 'file'
+                      ,done: function(res){
+                        //上传完毕回调
+                        function get(type,list) {
+                            $.each(list,function(index,value){
+                                $('#'+type+'_'+(index+1)+'_question').val(value.question);
+                                $('#'+type+'_'+(index+1)+'_A').val(value.optionA);
+                                $('#'+type+'_'+(index+1)+'_B').val(value.optionB);
+                                $('#'+type+'_'+(index+1)+'_C').val(value.optionC);
+                                $('#'+type+'_'+(index+1)+'_D').val(value.optionD);
+                                $('#'+type+'_'+(index+1)+'_analysis').val(value.analysis);
+                                if (value.answer!=undefined && value.answer!=null && value.answer!='') {
+                                    $('input[name="'+type+'_'+(i+1)+'_ans'+'"]').each(function(){ 
+                                        if(value.answer.indexOf($(this).val())>=0) {
+                                            $(this).prop("checked",true);
+                                        }
+                                    });
+                                }
+                                layui.use('form', function(){
+                                    var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+                                    form.render();
+                                });
+                            });
+                        }
+
+                        get('single',res.data.singleList);
+                        get('multiple',res.data.multipleList);
+                      }
+                      ,error: function(){
+                        //请求异常回调
+                      }
+                    });
+                });
                 
             },
             error:function(e){
@@ -401,20 +436,4 @@ layui.use(['form','layer'], function(){
     });
 });
 
-layui.use('upload', function(){
-    var upload = layui.upload;
-     
-    //执行实例
-    var uploadInst = upload.render({
-      elem: '#insert' //绑定元素
-      ,url: '/back/exam/importExam?singles='+thisNewExam.singles+'&multiples='+thisNewExam.multiples //上传接口
-      ,accept: 'file'
-      ,done: function(res){
-        //上传完毕回调
-        console.log(res);
-      }
-      ,error: function(){
-        //请求异常回调
-      }
-    });
-  });
+
