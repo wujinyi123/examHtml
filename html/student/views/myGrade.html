@@ -12,7 +12,7 @@
         <div class="layui-row">
             <div class="layui-card">
                 <div class="layui-card-header">成绩统计</div>
-                <form class="layui-form layui-card-body" action="">
+                <div class="layui-form layui-card-body">
                   <div class="layui-form-item">
                     <label class="layui-form-label">模糊条件</label>
                     <div class="layui-input-block">
@@ -21,11 +21,11 @@
                   </div>
                   <div class="layui-form-item">
                     <div class="layui-input-block">
-                      <button class="layui-btn layui-btn-blue" lay-submit lay-filter="formDemo">查询</button>
-                      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                      <button class="layui-btn layui-btn-blue" onclick="pageStuScore()">查询</button>
                     </div>
                   </div>
-                </form>  
+                </div>  
+                <span style="color: red;">点击老师可得到教师信息，点击其他得到小测情况</span>
                 <table id="scoreTable"></table>
             </div>
         </div>
@@ -56,21 +56,59 @@
                     }
                 },
                 cols: [[
-                    {field: 'examCode',width:150, title: '考试码', sort: true},
-                    {field: 'examName', title: '考试名称', sort: true},
-                    {field: 'score', width:75, title: '总分', sort: true},
-                    {field: 'teacherName', title: '出题教师', sort: true},
-                    {field: 'time', width:95, title: '用时', sort: true},
-                    {field: 'myScore', width:75, title: '成绩', sort: true},
-                    {field: 'submitTime', width:160, title: '提交时间', sort: true},
                     {
-                        field: 'action', width:100,title: '操作', sort: true, templet: function (data) {
-                            return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="seeExamResult(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>答题情况</a>';
+                        field: 'examCode',width:140, title: '考试码', sort: true,templet: function (data) {
+                            return '<span onclick="seeExamResult(\''+data.examCode+'\')">'+data.examCode+'</span>'
+                        }
+                    },
+                    {
+                        field: 'examName',width:150, title: '考试名称', sort: true,templet: function (data) {
+                            return '<span onclick="seeExamResult(\''+data.examCode+'\')">'+data.examName+'</span>'
+                        }
+                    },
+                    {
+                        field: 'score', width:75, title: '总分', sort: true,templet: function (data) {
+                            return '<span onclick="seeExamResult(\''+data.examCode+'\')">'+data.score+'</span>'
+                        }
+                    },
+                    {
+                        field: 'teacher', title: '出题教师', sort: true,templet: function (data) {
+                            return '<span onclick="seeInfo(\''+data.teacherNumber+'\')">'+data.teacherName+'</span>'
+                        }
+                    },
+                    {
+                        field: 'time', width:95, title: '用时', sort: true,templet: function (data) {
+                            return '<span onclick="seeExamResult(\''+data.examCode+'\')">'+data.time+'</span>'
+                        }
+                    },
+                    {
+                        field: 'myScore', width:75, title: '成绩', sort: true,templet: function (data) {
+                            return '<span onclick="seeExamResult(\''+data.examCode+'\')">'+data.myScore+'</span>'
+                        }
+                    },
+                    {
+                        field: 'submitTime', width:160, title: '提交时间', sort: true,templet: function (data) {
+                            return '<span onclick="seeExamResult(\''+data.examCode+'\')">'+data.submitTime+'</span>'
                         }
                     }
                 ]]
             });
         });
+      }
+
+      function seeInfo(number) {
+          layui = window.parent.layui;
+          layui.use('layer', function () {
+              layui.layer.open({
+                  type: 2,
+                  title: '教师信息',
+                  // shadeClose: false,
+                  // shade: false,
+                  //maxmin: true, //开启最大化最小化按钮
+                  area: ['90%', '90%'],
+                  content: '/html/common/teacherInfo.html?number='+number
+              });
+          });
       }
 
       function seeExamResult(examCode) {
@@ -101,13 +139,6 @@
             }
         });
       }
-
-      layui.use(['form','layer'], function () {
-        layui.form.on("select(formDemo)",function () {
-          pageStuScore();
-          return false;
-        });
-      });
 
       pageStuScore();
     </script>

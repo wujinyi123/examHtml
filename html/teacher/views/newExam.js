@@ -52,6 +52,7 @@ function imgUpload(imgName) {
         layui.layer.open({
             type: 2,
             title: titleName,
+            scrollbar:true,
             // shadeClose: false,
             // shade: false,
             //maxmin: true, //开启最大化最小化按钮
@@ -116,15 +117,15 @@ function enterQuestions(name,type,num,score) {
             thisInputDiv = $('<div class="layui-input-block">');
             if (index==5) {
                 if (type=='single') {
-                    thisInputDiv.append($('<input type="radio" name="'+thisIdName+'" value="A" title="A" checked>'));
-                    thisInputDiv.append($('<input type="radio" name="'+thisIdName+'" value="B" title="B">'));
-                    thisInputDiv.append($('<input type="radio" name="'+thisIdName+'" value="C" title="C">'));
-                    thisInputDiv.append($('<input type="radio" name="'+thisIdName+'" value="D" title="D">'));
+                    thisInputDiv.append($('<input type="radio" id="'+thisIdName+'_A" name="'+thisIdName+'" value="A" title="A" checked>'));
+                    thisInputDiv.append($('<input type="radio" id="'+thisIdName+'_B" name="'+thisIdName+'" value="B" title="B">'));
+                    thisInputDiv.append($('<input type="radio" id="'+thisIdName+'_C" name="'+thisIdName+'" value="C" title="C">'));
+                    thisInputDiv.append($('<input type="radio" id="'+thisIdName+'_D" name="'+thisIdName+'" value="D" title="D">'));
                 } else {
-                    thisInputDiv.append($('<input type="checkbox" name="'+thisIdName+'" lay-skin="primary" value="A" title="A">'));
-                    thisInputDiv.append($('<input type="checkbox" name="'+thisIdName+'" lay-skin="primary" value="B" title="B">'));
-                    thisInputDiv.append($('<input type="checkbox" name="'+thisIdName+'" lay-skin="primary" value="C" title="C">'));
-                    thisInputDiv.append($('<input type="checkbox" name="'+thisIdName+'" lay-skin="primary" value="D" title="D">'));
+                    thisInputDiv.append($('<input type="checkbox" id="'+thisIdName+'_A" name="'+thisIdName+'" lay-skin="primary" value="A" title="A">'));
+                    thisInputDiv.append($('<input type="checkbox" id="'+thisIdName+'_B" name="'+thisIdName+'" lay-skin="primary" value="B" title="B">'));
+                    thisInputDiv.append($('<input type="checkbox" id="'+thisIdName+'_C" name="'+thisIdName+'" lay-skin="primary" value="C" title="C">'));
+                    thisInputDiv.append($('<input type="checkbox" id="'+thisIdName+'_D" name="'+thisIdName+'" lay-skin="primary" value="D" title="D">'));
                 }
             } else {
                 thisInputDiv.append($('<input type="text" id="'+thisIdName+'" name="'+thisIdName+'" required lay-verify="required" placeholder="请输入内容" autocomplete="off" class="layui-input">'));
@@ -295,16 +296,19 @@ layui.use(['form','layer'], function(){
                                 $('#'+type+'_'+(index+1)+'_D').val(value.optionD);
                                 $('#'+type+'_'+(index+1)+'_analysis').val(value.analysis);
                                 if (value.answer!=undefined && value.answer!=null && value.answer!='') {
-                                    $('input[name="'+type+'_'+(i+1)+'_ans'+'"]').each(function(){ 
-                                        if(value.answer.indexOf($(this).val())>=0) {
-                                            $(this).prop("checked",true);
-                                        }
-                                    });
+                                    if(value.answer.indexOf($('#'+type+'_'+(i+1)+'_ans_A').val())>=0) {
+                                        $('#'+type+'_'+(i+1)+'_ans_A').prop("checked",true);
+                                    }
+                                    if(value.answer.indexOf($('#'+type+'_'+(i+1)+'_ans_B').val())>=0) {
+                                        $('#'+type+'_'+(i+1)+'_ans_B').prop("checked",true);
+                                    }
+                                    if(value.answer.indexOf($('#'+type+'_'+(i+1)+'_ans_C').val())>=0) {
+                                        $('#'+type+'_'+(i+1)+'_ans_C').prop("checked",true);
+                                    }
+                                    if(value.answer.indexOf($('#'+type+'_'+(i+1)+'_ans_D').val())>=0) {
+                                        $('#'+type+'_'+(i+1)+'_ans_D').prop("checked",true);
+                                    }
                                 }
-                                layui.use('form', function(){
-                                    var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
-                                    form.render();
-                                });
                             });
                         }
 

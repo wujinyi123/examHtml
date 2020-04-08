@@ -127,15 +127,28 @@ function cleanExamMsg() {
     $("#examMsg").html("");
 }
 
+function seeInfo(number) {
+    layui = window.parent.layui;
+    layui.use('layer', function () {
+        layui.layer.open({
+            type: 2,
+            title: '教师信息',
+            // shadeClose: false,
+            // shade: false,
+            //maxmin: true, //开启最大化最小化按钮
+            area: ['90%', '90%'],
+            content: '/html/common/teacherInfo.html?number='+number
+        });
+    });
+}
+
 function pageNewExam() {
     $('#pageNewExam').html("");
-    //newTable = $('<table class="layui-hide" id="pageNewExam">');
-    //$('#pageNewExamFather').append(newTable);
     layui.use('table', function () {
         var table = layui.table;
         table.render({
             elem: '#pageNewExam',
-            url: '/back/exam/pageNewExam',
+            url: '/back/exam/pageNewExam?term='+$('#examTerm').val(),
             page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                 limits: [5, 10, 15],
@@ -152,15 +165,18 @@ function pageNewExam() {
                 }
             },
             cols: [[
-                {field: 'examCode', title: '考试码', sort: true},
-                {field: 'examName', title: '考试名称', sort: true},
-                {field: 'score', title: '试卷总分', sort: true},
-                {field: 'teacherName', title: '出题教师', sort: true},
-                {field: 'time', title: '考试时间', sort: true},
-                {field: 'pdDate', title: '出题时间', sort: true},
-                {field: 'expDate', title: '截止时间', sort: true},
+                {field: 'examCode',width:140, title: '考试码', sort: true},
+                {field: 'examName',width:150, title: '考试名称', sort: true},
+                {field: 'score',width:75, title: '试卷总分', sort: true},
                 {
-                    field: 'id', title: '操作', sort: true, templet: function (data) {
+                    field: 'teacher', title: '出题教师', sort: true,templet: function (data) {
+                        return '<span onclick="seeInfo(\''+data.teacherNumber+'\')">'+data.teacherName+'</span>'
+                    }
+                },
+                {field: 'time',width:75, title: '考试时间', sort: true},
+                {field: 'expDate',width:160, title: '截止时间', sort: true},
+                {
+                    field: 'id',width:140, title: '操作', sort: true, templet: function (data) {
                         return '<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>';
                     }
                 }
@@ -168,6 +184,8 @@ function pageNewExam() {
         });
     });
 }
+
+pageNewExam();
 
 function listNewScore() {
     $.ajax({
