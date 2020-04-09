@@ -67,7 +67,15 @@ layui.use(['form','layer'], function () {
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(jsonData),
             success: function(data){
-                alert(data.data);
+                if (data.data!=undefined && data.data!=null && data.data!='' && data.data!='0' && data.data!=0) {
+                    layui.use('layer', function () {
+                        layui.layer.alert('<span style="font-size:16px;">修改成功</span>', {icon: 1});
+                    });
+                } else {
+                    layui.use('layer', function () {
+                        layui.layer.alert('<span style="font-size:16px;">修改失败</span>', {icon: 2});
+                    });
+                }
             },
             error:function(e){
                 console.log(e);
@@ -88,7 +96,15 @@ layui.use(['form','layer'], function () {
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(jsonData),
             success: function(data){
-                alert(data.data);
+                if (data.data!=undefined && data.data!=null && data.data!='' && data.data!='0' && data.data!=0) {
+                    layui.use('layer', function () {
+                        layui.layer.alert('<span style="font-size:16px;">重置成功</span>', {icon: 1});
+                    });
+                } else {
+                    layui.use('layer', function () {
+                        layui.layer.alert('<span style="font-size:16px;">重置失败</span>', {icon: 2});
+                    });
+                }
             },
             error:function(e){
                 console.log(e);

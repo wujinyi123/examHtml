@@ -38,6 +38,50 @@ function seeInfo(number) {
     });
 }
 
+function updateInfo(number) {
+    layui = window.parent.layui;
+    layui.use('layer', function () {
+        layui.layer.open({
+            type: 2,
+            title: '修改教师信息',
+            // shadeClose: false,
+            // shade: false,
+            //maxmin: true, //开启最大化最小化按钮
+            area: ['90%', '90%'],
+            content: '/html/common/teacherUpdate.html?number='+number
+        });
+    });
+}
+
+function deleteInfo(number) {
+    layer.confirm('确定要删除该教师吗？', {
+        btn: ['确定','取消'], //按钮
+    }, function(index){
+        $.ajax({
+            type: "POST",
+            url: "/back/user/deleteUser",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({userType:"teacher",number:number}),
+            success: function(data){
+                if (data.data!=undefined && data.data!=null && data.data!='' && data.data!='0' && data.data!=0) {
+                    layui.use('layer', function () {
+                        layui.layer.alert('<span style="font-size:16px;">删除成功</span>', {icon: 1});
+                    });
+                } else {
+                    layui.use('layer', function () {
+                        layui.layer.alert('<span style="font-size:16px;">删除失败</span>', {icon: 2});
+                    });
+                }
+            },
+            error:function(e){
+                console.log(e);
+            }
+        });
+        layer.close(index);
+    });
+}
+
 function pageTeacher() {
     collegeCode = $('#collegeCode').val();
     sex = $('#sex').val();
