@@ -156,7 +156,7 @@ function pageStudent() {
                     field: 'action', title: '操作', sort: true, templet:function(data) {
                         return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="seeInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>查看</a>'
                             +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="updateInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>修改</a>'
-                            +'<a class="layui-btn layui-btn-red layui-btn-mini links_edit" href="#" onclick="deleteInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>删除</a>';
+                            +'<a class="layui-btn layui-btn-danger layui-btn-radius layui-btn-mini links_edit" href="#" onclick="deleteInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>删除</a>';
                     }
                 }
             ]]
@@ -185,7 +185,7 @@ layui.use('upload', function(){
                 layui.layer.alert('<span style="font-size:16px;">全部数据上传成功，共'+res.data.success+'条</span>', {icon: 1});
             });
         } else {
-            $('#errorTbodys').children().remove();
+            $('#errorTbodys').html('');
             $('#errorSpan').html("以下是导入出错的信息，共"+res.data.fail+"条  ");
             $.each(res.data.dataList, function (index, value) {
                 newTr = $('<tr>');

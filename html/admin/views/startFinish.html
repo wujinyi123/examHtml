@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>学生在线小测系统-管理员</title>
+</head>
+<body class="layui-view-body">
+    <div class="layui-content">
+        <div class="layui-page-header">
+            <div class="pagewrap">
+                <span class="layui-breadcrumb">
+                    <a href="">首页</a>
+                    <a href="">学院/班级</a>
+                    <a><cite>入学/毕业</cite></a>
+                  </span>
+                  <h2 class="title">入学/毕业</h2>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-card-header">新一届班级</div>
+                <div class="layui-card-body">
+                    <fieldset class="layui-elem-field layui-field-title">
+                        <legend><a class="layui-btn layui-btn-blue" href="/back/manage/newClazz">生成新一届班级</a></legend>
+                    </fieldset>
+                </div>
+                
+                <div class="layui-card-header">新一届学生学号</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" id="thisForm">
+                        
+                    </form>
+                </div>
+
+                <hr class="layui-bg-red">
+                <hr class="layui-bg-blue">
+
+                <div class="layui-card-header">毕业操作</div>
+                <div class="layui-card-body">
+                    <form class="layui-form">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">学院</label>
+                                <div class="layui-input-inline">
+                                <select name="collegeCode" id="collegeCode" lay-filter="collegeCode" lay-verify="required" lay-search="">
+                                    <option value="0">全部</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">年级</label>
+                                <div class="layui-input-inline">
+                                <select name="year" id="year" lay-filter="year" lay-verify="required" lay-search="">
+                                    
+                                </select>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">班级</label>
+                                <div class="layui-input-inline">
+                                  <select name="clazz" id="clazz" lay-filter="clazz" lay-verify="required" lay-search="">
+                                    <option value="0">全部</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label"></label>
+                                <div class="layui-input-inline">
+                                    <button class="layui-btn layui-btn-danger layui-btn-radius" lay-submit lay-filter="finish">转为已毕业</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/layui/layui.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="startFinish.js"></script>
+
+</body>
+</html>

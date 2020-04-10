@@ -81,7 +81,7 @@ layui.use('upload', function(){
                 layui.layer.alert('<span style="font-size:16px;">全部数据上传成功，共'+res.data.success+'条</span>', {icon: 1});
             });
         } else {
-            $('#errorTbodys').children().remove();
+            $('#errorTbodys').html('');
             $('#errorSpan').html("以下是导入出错的信息，共"+res.data.fail+"条  ");
             
             $.each(res.data.dataList, function (index, value) {

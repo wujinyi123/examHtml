@@ -296,16 +296,16 @@ layui.use(['form','layer'], function(){
                                 $('#'+type+'_'+(index+1)+'_D').val(value.optionD);
                                 $('#'+type+'_'+(index+1)+'_analysis').val(value.analysis);
                                 if (value.answer!=undefined && value.answer!=null && value.answer!='') {
-                                    if(value.answer.indexOf($('#'+type+'_'+(i+1)+'_ans_A').val())>=0) {
+                                    if($('#'+type+'_'+(i+1)+'_ans_A').val().indexOf(value.answer)>=0) {
                                         $('#'+type+'_'+(i+1)+'_ans_A').prop("checked",true);
                                     }
-                                    if(value.answer.indexOf($('#'+type+'_'+(i+1)+'_ans_B').val())>=0) {
+                                    if($('#'+type+'_'+(i+1)+'_ans_B').val().indexOf(value.answer)>=0) {
                                         $('#'+type+'_'+(i+1)+'_ans_B').prop("checked",true);
                                     }
-                                    if(value.answer.indexOf($('#'+type+'_'+(i+1)+'_ans_C').val())>=0) {
+                                    if($('#'+type+'_'+(i+1)+'_ans_C').val().indexOf(value.answer)>=0) {
                                         $('#'+type+'_'+(i+1)+'_ans_C').prop("checked",true);
                                     }
-                                    if(value.answer.indexOf($('#'+type+'_'+(i+1)+'_ans_D').val())>=0) {
+                                    if($('#'+type+'_'+(i+1)+'_ans_D').val().indexOf(value.answer)>=0) {
                                         $('#'+type+'_'+(i+1)+'_ans_D').prop("checked",true);
                                     }
                                 }
