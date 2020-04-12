@@ -296,24 +296,46 @@ layui.use(['form','layer'], function(){
                                 $('#'+type+'_'+(index+1)+'_D').val(value.optionD);
                                 $('#'+type+'_'+(index+1)+'_analysis').val(value.analysis);
                                 if (value.answer!=undefined && value.answer!=null && value.answer!='') {
-                                    if($('#'+type+'_'+(i+1)+'_ans_A').val().indexOf(value.answer)>=0) {
-                                        $('#'+type+'_'+(i+1)+'_ans_A').prop("checked",true);
-                                    }
-                                    if($('#'+type+'_'+(i+1)+'_ans_B').val().indexOf(value.answer)>=0) {
-                                        $('#'+type+'_'+(i+1)+'_ans_B').prop("checked",true);
-                                    }
-                                    if($('#'+type+'_'+(i+1)+'_ans_C').val().indexOf(value.answer)>=0) {
-                                        $('#'+type+'_'+(i+1)+'_ans_C').prop("checked",true);
-                                    }
-                                    if($('#'+type+'_'+(i+1)+'_ans_D').val().indexOf(value.answer)>=0) {
-                                        $('#'+type+'_'+(i+1)+'_ans_D').prop("checked",true);
+                                    if (type=='single') {
+                                        if(value.answer=='A') {
+                                            $('#'+type+'_'+(index+1)+'_ans_A').click();
+                                        }
+
+                                        if(value.answer=='B') {
+                                            $('#'+type+'_'+(index+1)+'_ans_B').click();
+                                        }
+
+                                        if(value.answer=='C') {
+                                            $('#'+type+'_'+(index+1)+'_ans_C').click();
+                                        }
+
+                                        if(value.answer=='D') {
+                                            $('#'+type+'_'+(index+1)+'_ans_D').click();
+                                        }
+                                    } else {
+                                        if('A'.indexOf(value.answer)>=0) {
+                                            $('#'+type+'_'+(index+1)+'_ans_A').click();
+                                        }
+
+                                        if('B'.indexOf(value.answer)>=0) {
+                                            $('#'+type+'_'+(index+1)+'_ans_B').click();
+                                        }
+
+                                        if('C'.indexOf(value.answer)>=0) {
+                                            $('#'+type+'_'+(index+1)+'_ans_C').click();
+                                        }
+
+                                        if('D'.indexOf(value.answer)>=0) {
+                                            $('#'+type+'_'+(index+1)+'_ans_D').click();
+                                        }
                                     }
                                 }
                             });
                         }
-
+                        
                         get('single',res.data.singleList);
                         get('multiple',res.data.multipleList);
+
                       }
                       ,error: function(){
                         //请求异常回调
@@ -416,12 +438,6 @@ layui.use(['form','layer'], function(){
                     itemDiv.append('<label class="layui-form-label">截止时间</label>');
                     itemDiv.append(inputDiv);
                     $("#examForm").append(itemDiv);
-
-                    // itemDiv = $('<div class="layui-form-item">');
-                    // inputDiv = $('<div class="layui-input-block">');
-                    // inputDiv.append('<button class="layui-btn layui-btn-blue" onclick="examNotice(\''+data.data.examCode+'\')">通知班级</button>');
-                    // itemDiv.append(inputDiv);
-                    // $("#examForm").append(itemDiv);
 
                     layui.use('layer', function () {
                         layui.layer.alert('<span style="font-size:16px;">新建成功</span>', {icon: 1});
