@@ -114,9 +114,9 @@ function pageTeacher() {
                 {field: 'college', title: '学院', sort: true},
                 {
                     field: 'action', title: '操作', sort: true, templet:function(data) {
-                        return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="seeInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>查看</a>'
-                            +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="updateInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>修改</a>'
-                            +'<a class="layui-btn layui-btn-danger layui-btn-radius layui-btn-mini links_edit" href="#" onclick="deleteInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>删除</a>';
+                        return '<a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-normal" href="#" onclick="seeInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>查看</a>'
+                            +'<a class="layui-btn layui-btn-radius layui-btn-sm" href="#" onclick="updateInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>修改</a>'
+                            +'<a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" href="#" onclick="deleteInfo(\''+data.number+'\')"><i class="iconfont icon-edit"></i>删除</a>';
                     }
                 }
             ]]

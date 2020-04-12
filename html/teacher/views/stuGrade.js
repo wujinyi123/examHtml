@@ -6,7 +6,7 @@ $.ajax({
     success: function(data){
         layui.use('form', function(){
             $.each(data.data,function(index,value){
-                $('#listExam').append('<option value="'+value.code+'">考试码：'+value.code+'，小测名称：'+value.name+'</option>');
+                $('#listExam').append('<option value="'+value.code+'">'+value.name+'</option>');
             });
             layui.form.render();
         });
@@ -127,21 +127,23 @@ function pageStudent() {
             },
             cols: [[
                 {field: 'stuNumber', title: '学号', sort: true},
-                {field: 'stuName', title: '姓名', sort: true},
-                {field: 'stuScore', width:100, title: '成绩', sort: true},
-                {field: 'useTime', width:120, title: '用时', sort: true},
-                {field: 'submitTime', width:180, title: '提交时间', sort: true},
                 {
-                    field: 'action', width:240,title: '操作', sort: true, templet: function (data) {
+                    field: 'stuName', title: '姓名', sort: true, templet: function (data) {
+                        return '<a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-normal" href="#" onclick="stuInfo(\''+data.stuNumber+'\')">'+data.stuName+'</a>';
+                    }
+                },
+                {field: 'sex', title: '性别', sort: true},
+                {
+                    field: 'stuScore',width:120, title: '成绩', sort: true, templet: function (data) {
                         if (data.stuScore=='未参加') {
-                            return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="stuExam(\''+data.stuNumber+'\',\''+examCode+'\',\'0\')"><i class="iconfont icon-edit"></i>答题情况</a>'
-                            +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="stuInfo(\''+data.stuNumber+'\')"><i class="iconfont icon-edit"></i>个人信息</a>';
+                            return '<a class="layui-btn layui-btn-radius layui-btn-sm" href="#" onclick="stuExam(\''+data.stuNumber+'\',\''+examCode+'\',\'0\')">'+data.stuScore+'</a>';
                         } else {
-                            return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="stuExam(\''+data.stuNumber+'\',\''+examCode+'\',\'1\')"><i class="iconfont icon-edit"></i>答题情况</a>'
-                            +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="stuInfo(\''+data.stuNumber+'\')"><i class="iconfont icon-edit"></i>个人信息</a>';
+                            return '<a class="layui-btn layui-btn-radius layui-btn-sm" href="#" onclick="stuExam(\''+data.stuNumber+'\',\''+examCode+'\',\'1\')">'+data.stuScore+'</a>';
                         }
                     }
-                }
+                },
+                {field: 'useTime', width:150, title: '用时', sort: true},
+                {field: 'submitTime', width:200, title: '提交时间', sort: true}
             ]]
         });
     });

@@ -7,16 +7,15 @@ function newStuScore() {
         success: function(data){
             $.each(data.data,function(index,value){
                 newTr = $('<tr>');
-                newTr.append('<td onclick="stuInfo(\''+value.stuNumber+'\')">'+value.stuNumber+'</td>');
-                newTr.append('<td onclick="stuInfo(\''+value.stuNumber+'\')">'+value.stuName+'</td>');
-                newTr.append('<td onclick="stuInfo(\''+value.stuNumber+'\')">'+value.clazz+'</td>');
+                newTr.append('<td>'+value.stuNumber+'</td>');
+                newTr.append('<td><a href="#" class="layui-btn layui-btn-radius layui-btn-sm layui-btn-normal" onclick="stuInfo(\''+value.stuNumber+'\')">'+value.stuName+'</a></td>');
+                newTr.append('<td>'+value.clazz+'</td>');
                 newTr.append('<td>'+value.examCode+'</td>');
                 newTr.append('<td>'+value.examName+'</td>');
                 newTr.append('<td>'+value.examScore+'</td>');
-                newTr.append('<td>'+value.stuScore+'</td>');
+                newTr.append('<td><a href="#" class="layui-btn layui-btn-radius layui-btn-sm" onclick="stuExam(\''+value.stuNumber+'\',\''+value.examCode+'\',\'1\')">'+value.stuScore+'</a></td>');
                 newTr.append('<td>'+value.useTime+'</td>');
-                newTr.append('<td><a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="stuExam(\''+value.stuNumber+'\',\''+value.examCode+'\',\'1\')"><i class="iconfont icon-edit"></i>答题情况</a>'
-                +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="stuInfo(\''+value.stuNumber+'\')"><i class="iconfont icon-edit"></i>个人信息</a></td>');
+                newTr.append('<td>'+value.submitTime+'</td>');
                 $('#newScoreTbodys').append(newTr);
             });
         },

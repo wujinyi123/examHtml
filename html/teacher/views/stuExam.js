@@ -89,9 +89,9 @@ function pageExam() {
                 {field: 'expDate', width:160, title: '结束时间', sort: true},
                 {
                     field: 'id', width:280, title: '操作', sort: true, templet: function (data) {
-                        return '<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="seeExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>查看</a>'
-                        +'<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="deleteExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>删除</a>'
-                        +'<a class="layui-btn layui-btn-blue layui-btn-mini links_edit" href="#" onclick="examNotice(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>通知</a>';
+                        return '<a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-normal" href="#" onclick="seeExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>查看</a>'
+                        +'<a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-danger" href="#" onclick="deleteExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>删除</a>'
+                        +'<a class="layui-btn layui-btn-radius layui-btn-sm" href="#" onclick="examNotice(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>通知</a>';
                     }
                 }
             ]]

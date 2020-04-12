@@ -1,16 +1,15 @@
 function showTable(data) {
     $('#thisTbodys').html('');
-    remark = ['<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>',
-    '<span>你已参加过该考试，成绩：<span style="color:red;">'+data.myScore+'分</span></span><a class="layui-btn layui-btn-mini links_edit" href="#" onclick="seeExamResult(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>详情</a>',
+    remark = ['<a class="layui-btn layui-btn-radius layui-btn-sm" href="#" onclick="enterExam(\''+data.examCode+'\')">进入考试</a>',
+    '<span>你已参加过该考试，成绩：<span style="color:red;">'+data.myScore+'分</span></span><a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-warm" href="#" onclick="seeExamResult(\''+data.examCode+'\')">详情</a>',
     '<span style="color:red;">该考试已经超过截止时间，您错过了考试</span>'];
     newTr = $('<tr>');
 
     newTr.append('<td>'+data.examCode+'</td>');
     newTr.append('<td>'+data.examName+'</td>');
-    newTr.append('<td>'+data.score+'</td>');
-    newTr.append('<td>'+data.teacherName+'</td>');
     newTr.append('<td>'+data.time+'</td>');
-    newTr.append('<td>'+data.pdDate+'</td>');
+    newTr.append('<td>'+data.score+'</td>');
+    newTr.append('<td><a href="#" class="layui-btn layui-btn-radius layui-btn-sm layui-btn-normal" onclick="seeInfo(\''+data.teacherNumber+'\')">'+data.teacherName+'</a></td>');
     newTr.append('<td>'+data.expDate+'</td>');
     newTr.append('<td>'+remark[data.remark]+'</td>');
 
@@ -166,18 +165,18 @@ function pageNewExam() {
             },
             cols: [[
                 {field: 'examCode',width:140, title: '考试码', sort: true},
-                {field: 'examName',width:150, title: '考试名称', sort: true},
-                {field: 'score',width:75, title: '试卷总分', sort: true},
+                {field: 'examName',width:150, title: '小测名称', sort: true},
+                {field: 'time',width:75, title: '时间', sort: true},
+                {field: 'score',width:75, title: '总分', sort: true},
                 {
                     field: 'teacher', title: '出题教师', sort: true,templet: function (data) {
-                        return '<span onclick="seeInfo(\''+data.teacherNumber+'\')">'+data.teacherName+'</span>'
+                        return '<a href="#" class="layui-btn layui-btn-radius layui-btn-sm layui-btn-normal" onclick="seeInfo(\''+data.teacherNumber+'\')">'+data.teacherName+'</a>';
                     }
                 },
-                {field: 'time',width:75, title: '考试时间', sort: true},
                 {field: 'expDate',width:160, title: '截止时间', sort: true},
                 {
-                    field: 'id',width:140, title: '操作', sort: true, templet: function (data) {
-                        return '<a class="layui-btn layui-btn-mini links_edit" href="#" onclick="enterExam(\''+data.examCode+'\')"><i class="iconfont icon-edit"></i>进入考试</a>';
+                    field: 'id',width:100, title: '操作', sort: true, templet: function (data) {
+                        return '<a href="#" class="layui-btn layui-btn-radius layui-btn-sm" onclick="enterExam(\''+data.examCode+'\')">进入考试</a>';
                     }
                 }
             ]]
