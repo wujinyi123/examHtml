@@ -1,5 +1,5 @@
-var login = $('input[name="login"]').val("admin001");
-var pwd = $('input[name="pwd"]').val("123456");
+// var login = $('input[name="login"]').val("admin001");
+// var pwd = $('input[name="pwd"]').val("123456");
 
 var canGetCookie = 1;//是否支持存储Cookie 0 不支持 1 支持
 var CodeVal = 0;
@@ -15,7 +15,7 @@ function Code() {
 }
 function showCheck(a) {
 	CodeVal = a;
-	var code = $('input[name="code"]').val(a);
+	// $('input[name="code"]').val(a);
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, 1000, 1000);

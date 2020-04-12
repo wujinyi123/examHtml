@@ -25,20 +25,29 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">学院</label>
                             <div class="layui-input-inline">
-                              <select name="listCollege" id="listCollege" lay-filter="listCollege" lay-verify="required" lay-search="">
-                                <option value="0" onclick='listClazz("0")'>请选择</option>
+                                <select name="collegeCode" id="collegeCode" lay-filter="collegeCode" lay-verify="required" lay-search="">
+                                    <option value="0">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">年级</label>
+                            <div class="layui-input-inline">
+                              <select name="year" id="year" lay-filter="year" lay-verify="required" lay-search="">
+                                  <option value="0">请选择</option>
                               </select>
                             </div>
                         </div>
                         <div class="layui-inline">
                             <label class="layui-form-label">班级</label>
                             <div class="layui-input-inline">
-                              <select name="listClazz" id="listClazz" lay-filter="listClazz" lay-verify="required" lay-search="">
+                              <select name="clazz" id="clazz" lay-filter="clazz" lay-verify="required" lay-search="">
                                 <option value="0">请选择</option>
                               </select>
                             </div>
                         </div>
                         <div class="layui-inline">
+                          <label class="layui-form-label"></label>
                           <div class="layui-input-inline">
                             <button class="layui-btn layui-btn-blue" lay-submit lay-filter="formSubmit">提交</button>
                           </div>
