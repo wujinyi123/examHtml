@@ -1,5 +1,14 @@
 function showTable(data) {
     $('#thisTbodys').html('');
+    index = '';
+    if (data.myScore!='无') {
+        index = 1;
+    } else if (data.remark=='1') {
+        index = 0;
+    } else {
+        index = 2;
+    }
+
     remark = ['<a class="layui-btn layui-btn-radius layui-btn-sm" href="#" onclick="enterExam(\''+data.examCode+'\')">进入考试</a>',
     '<span>你已参加过该考试，成绩：<span style="color:red;">'+data.myScore+'分</span></span><a class="layui-btn layui-btn-radius layui-btn-sm layui-btn-warm" href="#" onclick="seeExamResult(\''+data.examCode+'\')">详情</a>',
     '<span style="color:red;">该考试已经超过截止时间，您错过了考试</span>'];
@@ -11,7 +20,7 @@ function showTable(data) {
     newTr.append('<td>'+data.score+'</td>');
     newTr.append('<td><a href="#" class="layui-btn layui-btn-radius layui-btn-sm layui-btn-normal" onclick="seeInfo(\''+data.teacherNumber+'\')">'+data.teacherName+'</a></td>');
     newTr.append('<td>'+data.expDate+'</td>');
-    newTr.append('<td>'+remark[data.remark]+'</td>');
+    newTr.append('<td>'+remark[index]+'</td>');
 
     $('#thisTbodys').append(newTr);
     $('#thisTable').css('display','block');
